@@ -155,28 +155,29 @@ $users = $stmt->get_result();
             <div class="container-fluid px-4">
                 
                 <!-- شريط البحث والعنوان -->
-                <div class="d-flex justify-content-start align-items-center mt-4 mb-3">
-                    <form method="GET" action="users.php" class="m-0 d-flex gap-3" id="searchForm" onsubmit="return false;">
+                <!-- شريط البحث والعنوان -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-3 w-100">
+                    <form method="GET" action="users.php" class="m-0 d-flex align-items-center gap-3 w-100 flex-wrap" id="searchForm" onsubmit="return false;">
                         <div class="admin-search-box">
                             <img src="../assets/images/search.svg" class="admin-search-icon" alt="search">
                             <input type="text" name="search" id="searchInput" placeholder="بحث بالاسم، الهاتف أو الـ ID..." value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
                             <span id="clearSearch" class="clear-search-btn" style="display: none;">&times;</span>
                         </div>
                         
-                        <select name="status" id="statusFilter" class="form-select" style="width: 150px; border-radius: 12px; border: 1px solid #e1e1e1;">
+                        <select name="status" id="statusFilter" class="form-select" style="width: 150px; height: 45px; border-radius: 12px; border: 1px solid #e1e1e1; font-size: 0.95rem;">
                             <option value="">كل الحالات</option>
                             <option value="active" <?php if($status_filter == 'active') echo 'selected'; ?>>نشط فقط</option>
                             <option value="banned" <?php if($status_filter == 'banned') echo 'selected'; ?>>محظور فقط</option>
                         </select>
 
-                        <select name="sort" id="sortFilter" class="form-select" style="width: 200px; border-radius: 12px; border: 1px solid #e1e1e1;">
+                        <select name="sort" id="sortFilter" class="form-select" style="width: 200px; height: 45px; border-radius: 12px; border: 1px solid #e1e1e1; font-size: 0.95rem;">
                             <option value="newest" <?php if($sort == 'newest') echo 'selected'; ?>>الأحدث (ID تنازلي)</option>
                             <option value="oldest" <?php if($sort == 'oldest') echo 'selected'; ?>>الأقدم (ID تصاعدي)</option>
                             <option value="name_asc" <?php if($sort == 'name_asc') echo 'selected'; ?>>الاسم (أ - ي)</option>
                             <option value="name_desc" <?php if($sort == 'name_desc') echo 'selected'; ?>>الاسم (ي - أ)</option>
                         </select>
                         
-                        <button type="button" class="btn btn-export-excel ms-auto d-flex align-items-center" onclick="exportTableToCSV('المستخدمين_إثراء.csv')" style="border-radius: 12px; font-weight: bold; transition: all 0.3s ease;">
+                        <button type="button" class="btn btn-export-excel ms-auto d-flex align-items-center px-3" onclick="exportTableToCSV('المستخدمين_إثراء.csv')" style="height: 45px; border-radius: 12px; font-weight: bold; font-size: 0.95rem; transition: all 0.3s ease;">
                             <i class="fas fa-file-excel me-2"></i> تصدير لإكسيل
                         </button>
                     </form>
