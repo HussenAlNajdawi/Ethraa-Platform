@@ -1,6 +1,9 @@
 <?php
 // php/db_connect.php
 
+// تضمين مهيئ الجلسات الآمن قبل أي عمليات
+require_once __DIR__ . '/session_bootstrap.php';
+
 // عدنا للإعدادات الافتراضية
 $servername = "localhost"; 
 $username = "root";
@@ -10,18 +13,18 @@ $dbname = "ethraa_db";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    error_log("Database Connection Failed: " . $conn->connect_error);
+    die("تعذر الاتصال بقاعدة البيانات حالياً. يرجى المحاولة لاحقاً.");
 }
 
 $conn->set_charset("utf8mb4");
 
-// دالة تنظيف المدخلات (موجودة مسبقاً)
+// دالة تنظيف المدخلات النصية العامة (لا تغني عن استخدام Prepared Statements)
 function sanitizeInput($data) {
-    global $conn;
-    $data = trim($data);
+    if (is_null($data)) return '';
+    $data = trim((string)$data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8'); 
-    return $conn->real_escape_string($data);
+    return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
 }
 
 // --- التحقق من وضع الصيانة ---
@@ -35,11 +38,6 @@ if (!$is_admin_area && !$is_maintenance_page) {
         $res_m = $stmt_m->get_result()->fetch_assoc();
         $stmt_m->close();
         if ($res_m && $res_m['setting_value'] === '1') {
-            // Check if user is logged in as admin (we need session for this, but it might not be started here)
-            // It's safer to just redirect all non-admin routes if session isn't admin
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
             if (!isset($_SESSION['admin_id'])) {
                 // إذا كان المستخدم العادي مسجلاً للدخول، نقوم بإنهاء جلسته طرده لصفحة تسجيل الدخول
                 if (isset($_SESSION['user_id'])) {
@@ -68,25 +66,6 @@ if (!$is_admin_area && !$is_maintenance_page) {
         }
     }
 }
-
-// --- إعدادات أمان جلسات PHP قبل بدئها ---
-if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
-    $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path'     => '/',
-        'domain'   => '',
-        'secure'   => $is_https,
-        'httponly' => true,
-        'samesite' => 'Lax'
-    ]);
-}
-
-// ضمان وجود أعمدة الأمان في قاعدة البيانات
-$conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS session_version INT DEFAULT 1");
-$conn->query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS session_version INT DEFAULT 1");
-$conn->query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS failed_attempts INT DEFAULT 0");
-$conn->query("ALTER TABLE admins ADD COLUMN IF NOT EXISTS lockout_time DATETIME NULL");
 
 // --- إعدادات الحماية العامة (Security Headers) ---
 if (!headers_sent()) {

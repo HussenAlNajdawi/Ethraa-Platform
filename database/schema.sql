@@ -218,6 +218,7 @@ CREATE TABLE `reviews` (
   `comment` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`review_id`),
+  UNIQUE KEY `unique_request_review` (`request_id`),
   KEY `provider_id` (`provider_id`),
   CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`provider_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

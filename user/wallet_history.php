@@ -1,10 +1,9 @@
 <?php
-session_start();
+require_once '../config/db_connect.php';
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-include '../config/db_connect.php';
 $user_id = $_SESSION['user_id'];
 
 $base_sql = "

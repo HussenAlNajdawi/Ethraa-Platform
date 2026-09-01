@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 // استدعاء ملفات PHPMailer يدوياً
@@ -11,6 +10,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_POST['csrf_token']) || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        header("Location: ../forgot_password.php?msg=sent");
+        exit();
+    }
+
     $email = trim($_POST['email'] ?? '');
 
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {

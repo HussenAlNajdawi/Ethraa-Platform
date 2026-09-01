@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 header('Content-Type: application/json; charset=utf-8');
@@ -9,12 +8,19 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// التحقق من رمز الـ CSRF
+if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+    echo json_encode(['status' => 'error', 'message' => 'رمز غير صالح (حماية CSRF)']);
+    exit();
+}
+
 $user_id = $_SESSION['user_id'];
 $request_id = isset($_POST['request_id']) ? (int)$_POST['request_id'] : 0;
 $message_text = isset($_POST['message_text']) ? trim($_POST['message_text']) : '';
+$has_attachment = (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK);
 
-if ($request_id <= 0 || empty($message_text)) {
-    echo json_encode(['status' => 'error', 'message' => 'بيانات غير مكتملة']);
+if ($request_id <= 0 || (empty($message_text) && !$has_attachment)) {
+    echo json_encode(['status' => 'error', 'message' => 'يرجى كتابة رسالة أو إرفاق صورة']);
     exit();
 }
 
@@ -143,29 +149,32 @@ if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ER
     $new_file_name = bin2hex(random_bytes(16)) . '_' . time() . '.' . $file_extension;
     $target_file = $upload_dir . $new_file_name;
     
-    // 4. إعادة رسم الصورة وتفريغ الميتاداتا وحقن الـ EXIF (Anti-Polyglot & Sanitization)
-    $img = @imagecreatefromstring(file_get_contents($file_tmp));
-    if ($img === false) {
-        echo json_encode(['status' => 'error', 'message' => 'ملف الصورة تالف أو غير صالح.']);
-        exit();
-    }
-
+    // 4. إعادة رسم الصورة وتفريغ الميتاداتا إذا توفرت مكتبة GD، أو الحفظ الآمن المباشر
     $saved = false;
-    if ($file_extension === 'jpg' || $file_extension === 'jpeg') {
-        $saved = imagejpeg($img, $target_file, 85);
-    } elseif ($file_extension === 'png') {
-        // الحفاظ على الشفافية للـ PNG
-        imagealphablending($img, true);
-        imagesavealpha($img, true);
-        $saved = imagepng($img, $target_file, 8);
-    } elseif ($file_extension === 'webp') {
-        if (function_exists('imagewebp')) {
-            $saved = imagewebp($img, $target_file, 85);
-        } else {
-            $saved = imagejpeg($img, $target_file, 85);
+    if (function_exists('imagecreatefromstring')) {
+        $img = @imagecreatefromstring(file_get_contents($file_tmp));
+        if ($img !== false) {
+            if ($file_extension === 'jpg' || $file_extension === 'jpeg') {
+                $saved = imagejpeg($img, $target_file, 85);
+            } elseif ($file_extension === 'png') {
+                imagealphablending($img, true);
+                imagesavealpha($img, true);
+                $saved = imagepng($img, $target_file, 8);
+            } elseif ($file_extension === 'webp') {
+                if (function_exists('imagewebp')) {
+                    $saved = imagewebp($img, $target_file, 85);
+                } else {
+                    $saved = imagejpeg($img, $target_file, 85);
+                }
+            }
+            imagedestroy($img);
         }
     }
-    imagedestroy($img);
+    
+    if (!$saved) {
+        // إذا لم تتوفر GD أو فشلت، نستخدم الحفظ الآمن بالاسم العشوائي الموثوق
+        $saved = move_uploaded_file($file_tmp, $target_file);
+    }
     
     if ($saved) {
         $attachment_path = 'uploads/chat/' . $new_file_name;

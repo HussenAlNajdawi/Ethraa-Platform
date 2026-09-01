@@ -1,7 +1,6 @@
 <?php
 // php/admin_login_process.php
-session_start();
-include '../config/db_connect.php';
+require_once '../config/db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

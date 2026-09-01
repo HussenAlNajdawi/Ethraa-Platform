@@ -1,11 +1,15 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
 if (!isset($_SESSION['user_id']) || !isset($_POST['request_id'])) {
     echo json_encode(['status' => 'error']);
+    exit();
+}
+
+if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+    echo json_encode(['status' => 'error', 'message' => 'CSRF failed']);
     exit();
 }
 

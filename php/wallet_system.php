@@ -16,10 +16,6 @@ function logPointTransaction($conn, $user_id, $amount, $type, $description, $req
 function checkAndRewardReferral($conn, $user_id) {
     if (!$user_id) return false;
 
-    // التأكد من وجود الأعمدة
-    $conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS referrer_id INT NULL");
-    $conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS referral_rewarded TINYINT(1) DEFAULT 0");
-
     $stmt = $conn->prepare("SELECT referrer_id, referral_rewarded, first_name FROM users WHERE user_id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();

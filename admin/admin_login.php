@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once '../config/db_connect.php';
 
 // إنشاء CSRF Token إذا لم يكن موجوداً
 if (empty($_SESSION['csrf_token'])) {
@@ -14,7 +14,6 @@ if (isset($_SESSION['admin_id'])) {
 
 // --- كود "تذكرني" للأدمن ---
 if (!isset($_SESSION['admin_id']) && isset($_COOKIE['admin_remember_me'])) {
-    include '../config/db_connect.php';
     
     $cookie_parts = explode(':', $_COOKIE['admin_remember_me']);
     if (count($cookie_parts) === 2) {

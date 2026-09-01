@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 header('Content-Type: application/json; charset=utf-8');
@@ -11,6 +10,11 @@ if (!isset($_SESSION['user_id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['action']) || $_POST['action'] !== 'report_message') {
     echo json_encode(['status' => 'error', 'message' => 'طلب غير صالح']);
+    exit();
+}
+
+if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+    echo json_encode(['status' => 'error', 'message' => 'رمز غير صالح (حماية CSRF)']);
     exit();
 }
 
@@ -57,7 +61,11 @@ if ($stmt->execute()) {
 
     if ($report_count >= 3) {
         // إخفاء الرسالة وتغريم المرسل
-        $conn->query("UPDATE messages SET is_hidden = 1 WHERE message_id = $message_id");
+        $stmt_hide = $conn->prepare("UPDATE messages SET is_hidden = 1 WHERE message_id = ?");
+        $stmt_hide->bind_param("i", $message_id);
+        $stmt_hide->execute();
+        $stmt_hide->close();
+        
         require_once 'moderation_system.php';
         applyUserPenalty($conn, $msg_data['sender_id'], 1);
     }

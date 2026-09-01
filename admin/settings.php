@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 require_once 'admin_functions.php';
 
@@ -10,6 +9,9 @@ if (!isset($_SESSION['admin_id'])) {
 requireAdminPermission('manage_settings');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("طلب غير صالح (حماية CSRF).");
+    }
     $daily_limit = intval($_POST['daily_limit'] ?? 3);
     $maintenance = isset($_POST['maintenance_mode']) ? '1' : '0';
     
@@ -124,6 +126,7 @@ if ($res) {
                 <?php endif; ?>
                 
                 <form method='POST'>
+                    <input type='hidden' name='csrf_token' value='<?php echo $_SESSION['csrf_token']; ?>'>
                     <!-- البطاقة 1: الإعدادات العامة للمنصة -->
                     <div class='card shadow-sm border-0 mb-4' style='border-radius: 15px;'>
                         <div class='card-body p-4'>

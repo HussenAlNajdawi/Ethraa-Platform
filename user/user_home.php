@@ -1,5 +1,4 @@
-<?php 
-session_start();
+<?php
 require_once '../config/db_connect.php'; // تأكد أن مسار ملف الاتصال صحيح
 
 // 1. التحقق من تسجيل الدخول

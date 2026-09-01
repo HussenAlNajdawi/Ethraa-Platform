@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -48,35 +47,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'reject_request') {
         $req_id = intval($_POST['request_id']);
         
-        // التحقق من أن المستخدم هو مقدم الخدمة وأن الطلب معلق قبل أي استرجاع
-        $stmt_info = $conn->prepare("SELECT r.requester_id, r.points_cost, u.email, u.first_name FROM requests r JOIN users u ON r.requester_id = u.user_id WHERE r.request_id = ? AND r.provider_id = ? AND r.status = 'pending'");
-        $stmt_info->bind_param("ii", $req_id, $user_id);
-        $stmt_info->execute();
-        $req_data = $stmt_info->get_result()->fetch_assoc();
-        $stmt_info->close();
+        $conn->begin_transaction();
+        try {
+            // التحقق من أن المستخدم هو مقدم الخدمة وأن الطلب معلق قبل أي استرجاع
+            $stmt_info = $conn->prepare("SELECT r.requester_id, r.points_cost, u.email, u.first_name FROM requests r JOIN users u ON r.requester_id = u.user_id WHERE r.request_id = ? AND r.provider_id = ? AND r.status = 'pending' FOR UPDATE");
+            $stmt_info->bind_param("ii", $req_id, $user_id);
+            $stmt_info->execute();
+            $req_data = $stmt_info->get_result()->fetch_assoc();
+            $stmt_info->close();
 
-        if ($req_data) {
-            // تحديث الحالة إلى مرفوض
-            $stmt_rej = $conn->prepare("UPDATE requests SET status = 'rejected' WHERE request_id = ? AND provider_id = ? AND status = 'pending'");
-            $stmt_rej->bind_param("ii", $req_id, $user_id);
-            $stmt_rej->execute();
-            
-            if ($stmt_rej->affected_rows > 0) {
-                // إعادة النقاط (Refund) للطالب فقط عند نجاح التحديث
-                $stmt_ref = $conn->prepare("UPDATE users SET points = points + ? WHERE user_id = ?");
-                $stmt_ref->bind_param("ii", $req_data['points_cost'], $req_data['requester_id']);
-                $stmt_ref->execute();
-                $stmt_ref->close();
+            if ($req_data) {
+                // تحديث الحالة إلى مرفوض
+                $stmt_rej = $conn->prepare("UPDATE requests SET status = 'rejected' WHERE request_id = ? AND provider_id = ? AND status = 'pending'");
+                $stmt_rej->bind_param("ii", $req_id, $user_id);
+                $stmt_rej->execute();
                 
-                require_once 'wallet_system.php';
-                logPointTransaction($conn, $req_data['requester_id'], $req_data['points_cost'], 'refund', 'استرجاع نقاط بسبب رفض مقدم الخدمة للطلب', $req_id);
-                
-                // إرسال إيميل للطالب
-                $subject = "تحديث بخصوص طلبك - إثراء";
-                $msg = "مرحباً {$req_data['first_name']}،\n\nعذراً، تم رفض طلب الخدمة الخاص بك وتم إعادة النقاط لرصيدك.";
-                @mail($req_data['email'], $subject, $msg, "From: no-reply@ithraa.com\r\nContent-Type: text/plain; charset=UTF-8");
+                if ($stmt_rej->affected_rows > 0) {
+                    // إعادة النقاط (Refund) للطالب فقط عند نجاح التحديث
+                    $stmt_ref = $conn->prepare("UPDATE users SET points = points + ? WHERE user_id = ?");
+                    $stmt_ref->bind_param("ii", $req_data['points_cost'], $req_data['requester_id']);
+                    $stmt_ref->execute();
+                    $stmt_ref->close();
+                    
+                    require_once 'wallet_system.php';
+                    logPointTransaction($conn, $req_data['requester_id'], $req_data['points_cost'], 'refund', 'استرجاع نقاط بسبب رفض مقدم الخدمة للطلب', $req_id);
+                    
+                    $conn->commit();
+
+                    // إرسال إيميل للطالب
+                    $subject = "تحديث بخصوص طلبك - إثراء";
+                    $msg = "مرحباً {$req_data['first_name']}،\n\nعذراً، تم رفض طلب الخدمة الخاص بك وتم إعادة النقاط لرصيدك.";
+                    @mail($req_data['email'], $subject, $msg, "From: no-reply@ithraa.com\r\nContent-Type: text/plain; charset=UTF-8");
+                } else {
+                    $conn->rollback();
+                }
+                $stmt_rej->close();
+            } else {
+                $conn->rollback();
             }
-            $stmt_rej->close();
+        } catch (Exception $e) {
+            $conn->rollback();
         }
 
         header("Location: ../user/requests.php#req-$req_id");
@@ -87,93 +97,107 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'finish_service') {
         $req_id = intval($_POST['request_id']);
         
-        // التحقق من وجود الطلب وأن المستخدم طرف فيه وأن حالته مقبولة أو قيد التنفيذ
-        $stmt_check = $conn->prepare("SELECT provider_id, requester_id, points_cost, provider_confirmed, requester_confirmed, status FROM requests WHERE request_id = ?");
-        $stmt_check->bind_param("i", $req_id);
-        $stmt_check->execute();
-        $check = $stmt_check->get_result()->fetch_assoc();
-        $stmt_check->close();
-        
-        if ($check && in_array($check['status'], ['accepted', 'pending'])) {
-            $is_provider = ($user_id == $check['provider_id']);
-            $is_requester = ($user_id == $check['requester_id']);
+        $conn->begin_transaction();
+        try {
+            // التحقق من وجود الطلب وأن المستخدم طرف فيه وأن حالته مقبولة أو قيد التنفيذ
+            $stmt_check = $conn->prepare("SELECT provider_id, requester_id, points_cost, provider_confirmed, requester_confirmed, status FROM requests WHERE request_id = ? FOR UPDATE");
+            $stmt_check->bind_param("i", $req_id);
+            $stmt_check->execute();
+            $check = $stmt_check->get_result()->fetch_assoc();
+            $stmt_check->close();
             
-            if ($is_provider || $is_requester) {
-                // نحدد أي عمود سنقوم بتحديثه بناءً على هوية المستخدم الحقيقية
-                $confirm_col = $is_provider ? 'provider_confirmed' : 'requester_confirmed';
+            if ($check && in_array($check['status'], ['accepted', 'pending'])) {
+                $is_provider = ($user_id == $check['provider_id']);
+                $is_requester = ($user_id == $check['requester_id']);
                 
-                // تحديث تأكيد المستخدم الحالي
-                $stmt = $conn->prepare("UPDATE requests SET $confirm_col = 1, confirmed_at = IF(confirmed_at IS NULL, NOW(), confirmed_at) WHERE request_id = ?");
-                $stmt->bind_param("i", $req_id);
-                $stmt->execute();
-                $stmt->close();
-                
-                // إعادة جلب حالة التأكيد للطرفين
-                $stmt_recheck = $conn->prepare("SELECT provider_confirmed, requester_confirmed FROM requests WHERE request_id = ?");
-                $stmt_recheck->bind_param("i", $req_id);
-                $stmt_recheck->execute();
-                $updated_check = $stmt_recheck->get_result()->fetch_assoc();
-                $stmt_recheck->close();
-                
-                if ($updated_check && $updated_check['provider_confirmed'] == 1 && $updated_check['requester_confirmed'] == 1) {
-                    // إذا الطرفين أكدوا، تتحول الحالة إلى مكتملة فوراً
-                    $stmt_complete = $conn->prepare("UPDATE requests SET status = 'completed' WHERE request_id = ? AND status != 'completed'");
-                    $stmt_complete->bind_param("i", $req_id);
-                    $stmt_complete->execute();
+                if ($is_provider || $is_requester) {
+                    $confirm_col = $is_provider ? 'provider_confirmed' : 'requester_confirmed';
                     
-                    if ($stmt_complete->affected_rows > 0) {
-                        // إضافة النقاط لمقدم الخدمة
-                        $stmt_add = $conn->prepare("UPDATE users SET points = points + ? WHERE user_id = ?");
-                        $stmt_add->bind_param("ii", $check['points_cost'], $check['provider_id']);
-                        $stmt_add->execute();
-                        $stmt_add->close();
+                    // تحديث تأكيد المستخدم الحالي
+                    $stmt = $conn->prepare("UPDATE requests SET $confirm_col = 1, confirmed_at = IF(confirmed_at IS NULL, NOW(), confirmed_at) WHERE request_id = ?");
+                    $stmt->bind_param("i", $req_id);
+                    $stmt->execute();
+                    $stmt->close();
+                    
+                    // إعادة جلب حالة التأكيد للطرفين
+                    $stmt_recheck = $conn->prepare("SELECT provider_confirmed, requester_confirmed FROM requests WHERE request_id = ?");
+                    $stmt_recheck->bind_param("i", $req_id);
+                    $stmt_recheck->execute();
+                    $updated_check = $stmt_recheck->get_result()->fetch_assoc();
+                    $stmt_recheck->close();
+                    
+                    if ($updated_check && $updated_check['provider_confirmed'] == 1 && $updated_check['requester_confirmed'] == 1) {
+                        // إذا الطرفين أكدوا، تتحول الحالة إلى مكتملة فوراً
+                        $stmt_complete = $conn->prepare("UPDATE requests SET status = 'completed' WHERE request_id = ? AND status != 'completed'");
+                        $stmt_complete->bind_param("i", $req_id);
+                        $stmt_complete->execute();
                         
-                        require_once 'wallet_system.php';
-                        logPointTransaction($conn, $check['provider_id'], $check['points_cost'], 'earn', 'أرباح خدمة مكتملة', $req_id);
-                        
-                        // فحص ومكافأة الإحالة إذا كان هذا أول طلب مكتمل للمستخدم
-                        checkAndRewardReferral($conn, $check['provider_id']);
-                        checkAndRewardReferral($conn, $check['requester_id']);
-                        
-                        // إشعار الطرفين عبر الإيميل بالاكتمال
-                        $stmt_emails = $conn->prepare("
-                            SELECT u_req.email as req_email, u_req.first_name as req_name,
-                                   u_prov.email as prov_email, u_prov.first_name as prov_name
-                            FROM requests r
-                            JOIN users u_req ON r.requester_id = u_req.user_id
-                            JOIN users u_prov ON r.provider_id = u_prov.user_id
-                            WHERE r.request_id = ?
-                        ");
-                        $stmt_emails->bind_param("i", $req_id);
-                        $stmt_emails->execute();
-                        $emails = $stmt_emails->get_result()->fetch_assoc();
-                        $stmt_emails->close();
-                        
-                        if ($emails) {
-                            $headers = "From: no-reply@ithraa.com\r\nContent-Type: text/plain; charset=UTF-8";
-                            @mail($emails['req_email'], "اكتمال الخدمة - إثراء", "مرحباً {$emails['req_name']}،\n\nتم اكتمال الخدمة بنجاح. يرجى تقييم مقدم الخدمة.", $headers);
-                            @mail($emails['prov_email'], "اكتمال الخدمة - إثراء", "مرحباً {$emails['prov_name']}،\n\nتم اكتمال الخدمة بنجاح.", $headers);
+                        if ($stmt_complete->affected_rows > 0) {
+                            // إضافة النقاط لمقدم الخدمة
+                            $stmt_add = $conn->prepare("UPDATE users SET points = points + ? WHERE user_id = ?");
+                            $stmt_add->bind_param("ii", $check['points_cost'], $check['provider_id']);
+                            $stmt_add->execute();
+                            $stmt_add->close();
+                            
+                            require_once 'wallet_system.php';
+                            logPointTransaction($conn, $check['provider_id'], $check['points_cost'], 'earn', 'أرباح خدمة مكتملة', $req_id);
+                            
+                            // فحص ومكافأة الإحالة إذا كان هذا أول طلب مكتمل للمستخدم
+                            checkAndRewardReferral($conn, $check['provider_id']);
+                            checkAndRewardReferral($conn, $check['requester_id']);
+                            
+                            $conn->commit();
+
+                            // إشعار الطرفين عبر الإيميل بالاكتمال
+                            $stmt_emails = $conn->prepare("
+                                SELECT u_req.email as req_email, u_req.first_name as req_name,
+                                       u_prov.email as prov_email, u_prov.first_name as prov_name
+                                FROM requests r
+                                JOIN users u_req ON r.requester_id = u_req.user_id
+                                JOIN users u_prov ON r.provider_id = u_prov.user_id
+                                WHERE r.request_id = ?
+                            ");
+                            $stmt_emails->bind_param("i", $req_id);
+                            $stmt_emails->execute();
+                            $emails = $stmt_emails->get_result()->fetch_assoc();
+                            $stmt_emails->close();
+                            
+                            if ($emails) {
+                                $headers = "From: no-reply@ithraa.com\r\nContent-Type: text/plain; charset=UTF-8";
+                                @mail($emails['req_email'], "اكتمال الخدمة - إثراء", "مرحباً {$emails['req_name']}،\n\nتم اكتمال الخدمة بنجاح. يرجى تقييم مقدم الخدمة.", $headers);
+                                @mail($emails['prov_email'], "اكتمال الخدمة - إثراء", "مرحباً {$emails['prov_name']}،\n\nتم اكتمال الخدمة بنجاح.", $headers);
+                            }
+                        } else {
+                            $conn->commit();
                         }
+                        $stmt_complete->close();
+                    } else {
+                        $conn->commit();
+
+                        // إذا لم يكتمل التأكيد من الطرفين، نرسل إشعاراً للطرف الآخر لتنبيهه
+                        $other_party_id = $is_provider ? $check['requester_id'] : $check['provider_id'];
+                        
+                        $search_str = "%إنهاء الخدمة بينكما%";
+                        $notif_check = $conn->prepare("SELECT notification_id FROM notifications WHERE user_id = ? AND type = 'info' AND is_read = 0 AND message LIKE ?");
+                        $notif_check->bind_param("is", $other_party_id, $search_str);
+                        $notif_check->execute();
+                        if ($notif_check->get_result()->num_rows === 0) {
+                            $notif_msg = "قام الطرف الآخر بإنهاء الخدمة بينكما. يرجى التوجه لصفحة <a href='requests.php#req-{$req_id}' style='color:#021C7B; font-weight:bold; text-decoration:underline;'>الطلبات</a> والضغط على (إنهاء الخدمة) لتأكيد الانتهاء وتوثيقه.";
+                            $notif_insert = $conn->prepare("INSERT INTO notifications (user_id, message, type) VALUES (?, ?, 'info')");
+                            $notif_insert->bind_param("is", $other_party_id, $notif_msg);
+                            $notif_insert->execute();
+                            $notif_insert->close();
+                        }
+                        $notif_check->close();
                     }
-                    $stmt_complete->close();
                 } else {
-                    // إذا لم يكتمل التأكيد من الطرفين، نرسل إشعاراً للطرف الآخر لتنبيهه
-                    $other_party_id = $is_provider ? $check['requester_id'] : $check['provider_id'];
-                    
-                    $search_str = "%إنهاء الخدمة بينكما%";
-                    $notif_check = $conn->prepare("SELECT notification_id FROM notifications WHERE user_id = ? AND type = 'info' AND is_read = 0 AND message LIKE ?");
-                    $notif_check->bind_param("is", $other_party_id, $search_str);
-                    $notif_check->execute();
-                    if ($notif_check->get_result()->num_rows === 0) {
-                        $notif_msg = "قام الطرف الآخر بإنهاء الخدمة بينكما. يرجى التوجه لصفحة <a href='requests.php#req-{$req_id}' style='color:#021C7B; font-weight:bold; text-decoration:underline;'>الطلبات</a> والضغط على (إنهاء الخدمة) لتأكيد الانتهاء وتوثيقه.";
-                        $notif_insert = $conn->prepare("INSERT INTO notifications (user_id, message, type) VALUES (?, ?, 'info')");
-                        $notif_insert->bind_param("is", $other_party_id, $notif_msg);
-                        $notif_insert->execute();
-                        $notif_insert->close();
-                    }
-                    $notif_check->close();
+                    $conn->rollback();
                 }
+            } else {
+                $conn->rollback();
             }
+        } catch (Exception $e) {
+            $conn->rollback();
         }
         
         header("Location: ../user/requests.php#req-$req_id");
@@ -184,31 +208,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'cancel_request') {
         $req_id = intval($_POST['request_id']);
         
-        // التحقق أولاً من أن الطلب يخص المستخدم وحالته معلقة 'pending' قبل أي تعديل
-        $stmt_check = $conn->prepare("SELECT points_cost FROM requests WHERE request_id = ? AND requester_id = ? AND status = 'pending'");
-        $stmt_check->bind_param("ii", $req_id, $user_id);
-        $stmt_check->execute();
-        $req_res = $stmt_check->get_result()->fetch_assoc();
-        $stmt_check->close();
+        $conn->begin_transaction();
+        try {
+            // التحقق أولاً من أن الطلب يخص المستخدم وحالته معلقة 'pending' قبل أي تعديل
+            $stmt_check = $conn->prepare("SELECT points_cost FROM requests WHERE request_id = ? AND requester_id = ? AND status = 'pending' FOR UPDATE");
+            $stmt_check->bind_param("ii", $req_id, $user_id);
+            $stmt_check->execute();
+            $req_res = $stmt_check->get_result()->fetch_assoc();
+            $stmt_check->close();
 
-        if ($req_res) {
-            // حذف الطلب
-            $stmt_del = $conn->prepare("DELETE FROM requests WHERE request_id = ? AND requester_id = ? AND status = 'pending'");
-            $stmt_del->bind_param("ii", $req_id, $user_id);
-            $stmt_del->execute();
-            
-            if ($stmt_del->affected_rows > 0) {
-                // إعادة النقاط فقط عند نجاح الحذف
-                $cost = intval($req_res['points_cost']);
-                $stmt_ref = $conn->prepare("UPDATE users SET points = points + ? WHERE user_id = ?");
-                $stmt_ref->bind_param("ii", $cost, $user_id);
-                $stmt_ref->execute();
-                $stmt_ref->close();
+            if ($req_res) {
+                // حذف الطلب
+                $stmt_del = $conn->prepare("DELETE FROM requests WHERE request_id = ? AND requester_id = ? AND status = 'pending'");
+                $stmt_del->bind_param("ii", $req_id, $user_id);
+                $stmt_del->execute();
+                
+                if ($stmt_del->affected_rows > 0) {
+                    // إعادة النقاط فقط عند نجاح الحذف
+                    $cost = intval($req_res['points_cost']);
+                    $stmt_ref = $conn->prepare("UPDATE users SET points = points + ? WHERE user_id = ?");
+                    $stmt_ref->bind_param("ii", $cost, $user_id);
+                    $stmt_ref->execute();
+                    $stmt_ref->close();
 
-                require_once 'wallet_system.php';
-                logPointTransaction($conn, $user_id, $cost, 'refund', 'استرجاع نقاط بسبب إلغاء الطلب من قبل الطالب', $req_id);
+                    require_once 'wallet_system.php';
+                    logPointTransaction($conn, $user_id, $cost, 'refund', 'استرجاع نقاط بسبب إلغاء الطلب من قبل الطالب', $req_id);
+                    
+                    $conn->commit();
+                } else {
+                    $conn->rollback();
+                }
+                $stmt_del->close();
+            } else {
+                $conn->rollback();
             }
-            $stmt_del->close();
+        } catch (Exception $e) {
+            $conn->rollback();
         }
         
         // عند الحذف، نوجه المستخدم لتبويب الصادرة لأن الكرت لم يعد موجوداً
@@ -331,8 +366,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        // 4. إدخال التقييم الجديد في قاعدة البيانات مع ضمان القيد الفريد
-        $conn->query("ALTER TABLE reviews ADD UNIQUE KEY IF NOT EXISTS unique_request_review (request_id)");
+        // 4. إدخال التقييم الجديد في قاعدة البيانات
         $insert_stmt = $conn->prepare("INSERT INTO reviews (request_id, reviewer_id, provider_id, rating, comment, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
         $insert_stmt->bind_param("iiiis", $req_id, $reviewer_id, $prov_id, $rating, $comment);
         

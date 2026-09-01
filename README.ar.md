@@ -382,6 +382,24 @@ Referrer-Policy: strict-origin-when-cross-origin
 
 ---
 
+## 📸 لقطات الشاشة وواجهات المنصة (Screenshots)
+
+> يمكن حفظ لقطات الشاشة في المجلد `docs/screenshots/` لعرض واجهات النظام بشكل تفاعلي.
+
+| واجهة المنصة واستكشاف الخدمات | تجربة الوضع الليلي (Dark Mode) |
+| :---: | :---: |
+| *(التقاط: `docs/screenshots/home.png`)* | *(التقاط: `docs/screenshots/dark-mode.png`)* |
+
+| حجز الخدمات وإدارة الطلبات | المحادثة الخاصة والإشراف الآلي |
+| :---: | :---: |
+| *(التقاط: `docs/screenshots/booking.png`)* | *(التقاط: `docs/screenshots/chat.png`)* |
+
+| سجل المحفظة والمعاملات | لوحة تحكم وإحصائيات الإدارة |
+| :---: | :---: |
+| *(التقاط: `docs/screenshots/wallet.png`)* | *(التقاط: `docs/screenshots/admin-dashboard.png`)* |
+
+---
+
 ## 🚀 التثبيت والتشغيل المحلي (Installation & Setup)
 
 ### المتطلبات الأساسية:

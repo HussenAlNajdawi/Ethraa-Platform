@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 require_once 'admin_functions.php';
 
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_notif'])) {
         $raw_message = " إنذار إداري: " . $raw_message;
     }
 
-    $message = $conn->real_escape_string($raw_message);
+    $message = $raw_message;
 
     if ($target == 'all') {
         // إرسال للكل (قد يكون ثقيلاً إذا كان العدد كبيراً، يفضل استخدام Loop أو Insert Select)

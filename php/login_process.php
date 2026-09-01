@@ -1,7 +1,6 @@
 <?php
 // php/login_process.php
-session_start();
-include '../config/db_connect.php';
+require_once '../config/db_connect.php';
 
 // تنظيف الرقم من الفراغات
 $phone = trim($_POST['phone']);

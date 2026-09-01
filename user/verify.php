@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 if (!isset($_GET['token'])) {
@@ -26,10 +25,9 @@ if ($result->num_rows > 0) {
         
         if ($update_stmt->execute()) {
             $_SESSION['success_msg'] = "تم تأكيد بريدك الإلكتروني بنجاح وتم اعتماده في حسابك!";
-            header("Location: my_account.php?msg=" . urlencode("تم تأكيد بريدك الإلكتروني بنجاح!"));
-            exit();
+            $target = isset($_SESSION['user_id']) ? 'my_account.php' : 'login.php';
         } else {
-            echo "حدث خطأ أثناء تحديث البيانات.";
+            $update_stmt->close();
         }
     } else {
         // إذا لم يكن هناك إيميل معلق، ربما كان فقط تأكيد للحالي
@@ -37,9 +35,8 @@ if ($result->num_rows > 0) {
         $update_stmt = $conn->prepare($update_sql);
         $update_stmt->bind_param("i", $user['user_id']);
         $update_stmt->execute();
-        header("Location: my_account.php?msg=" . urlencode("تم تأكيد بريدك الإلكتروني بنجاح!"));
-        exit();
-    }
+        $update_stmt->close();
+        $target = isset($_SESSION['user_id']) ? 'my_account.php' : 'login.php';
 } else {
     echo "رابط التأكيد منتهي الصلاحية أو غير صحيح.";
 }

@@ -1,6 +1,5 @@
 <?php
-session_start();
-// php/login.php
+require_once '../config/db_connect.php';
 
 // إنشاء CSRF Token إذا لم يكن موجوداً
 if (empty($_SESSION['csrf_token'])) {
@@ -8,7 +7,6 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
-    include '../config/db_connect.php';
     
     $cookie_parts = explode(':', $_COOKIE['remember_me']);
     

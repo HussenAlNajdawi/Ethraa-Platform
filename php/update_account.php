@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 // استدعاء ملفات PHPMailer لإرسال كود التفعيل عند تغيير الإيميل

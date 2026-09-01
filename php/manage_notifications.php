@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -33,20 +32,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // أ. حذف إشعارات النظام
             if (!empty($sys_ids)) {
-                $ids_str = implode(',', $sys_ids);
-                $conn->query("DELETE FROM notifications WHERE notification_id IN ($ids_str) AND user_id = $user_id AND message NOT LIKE '%تنبيه%' AND message NOT LIKE '%إنذار%'");
+                $placeholders = implode(',', array_fill(0, count($sys_ids), '?'));
+                $stmt = $conn->prepare("DELETE FROM notifications WHERE notification_id IN ($placeholders) AND user_id = ? AND message NOT LIKE '%تنبيه%' AND message NOT LIKE '%إنذار%'");
+                $types = str_repeat('i', count($sys_ids)) . 'i';
+                $params = array_merge($sys_ids, [$user_id]);
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $stmt->close();
             }
 
             // ب. إخفاء الطلبات الواردة (كمقدم خدمة)
             if (!empty($inc_ids)) {
-                $ids_str = implode(',', $inc_ids);
-                $conn->query("UPDATE requests SET hidden_for_provider = 1 WHERE request_id IN ($ids_str) AND provider_id = $user_id");
+                $placeholders = implode(',', array_fill(0, count($inc_ids), '?'));
+                $stmt = $conn->prepare("UPDATE requests SET hidden_for_provider = 1 WHERE request_id IN ($placeholders) AND provider_id = ?");
+                $types = str_repeat('i', count($inc_ids)) . 'i';
+                $params = array_merge($inc_ids, [$user_id]);
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $stmt->close();
             }
 
             // ج. إخفاء الطلبات الصادرة (كطالب خدمة)
             if (!empty($out_ids)) {
-                $ids_str = implode(',', $out_ids);
-                $conn->query("UPDATE requests SET hidden_for_requester = 1 WHERE request_id IN ($ids_str) AND requester_id = $user_id");
+                $placeholders = implode(',', array_fill(0, count($out_ids), '?'));
+                $stmt = $conn->prepare("UPDATE requests SET hidden_for_requester = 1 WHERE request_id IN ($placeholders) AND requester_id = ?");
+                $types = str_repeat('i', count($out_ids)) . 'i';
+                $params = array_merge($out_ids, [$user_id]);
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $stmt->close();
             }
         }
         header("Location: ../user/notifications.php?msg=deleted");
@@ -55,10 +69,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 2. حذف جميع الإشعارات (نظام + طلبات)
     elseif ($action === 'delete_all') {
         // حذف إشعارات النظام
-        $conn->query("DELETE FROM notifications WHERE user_id = $user_id AND message NOT LIKE '%تنبيه%' AND message NOT LIKE '%إنذار%'");
+        $stmt1 = $conn->prepare("DELETE FROM notifications WHERE user_id = ? AND message NOT LIKE '%تنبيه%' AND message NOT LIKE '%إنذار%'");
+        $stmt1->bind_param("i", $user_id);
+        $stmt1->execute();
+        $stmt1->close();
+
         // إخفاء جميع الطلبات الواردة والصادرة
-        $conn->query("UPDATE requests SET hidden_for_provider = 1 WHERE provider_id = $user_id");
-        $conn->query("UPDATE requests SET hidden_for_requester = 1 WHERE requester_id = $user_id");
+        $stmt2 = $conn->prepare("UPDATE requests SET hidden_for_provider = 1 WHERE provider_id = ?");
+        $stmt2->bind_param("i", $user_id);
+        $stmt2->execute();
+        $stmt2->close();
+
+        $stmt3 = $conn->prepare("UPDATE requests SET hidden_for_requester = 1 WHERE requester_id = ?");
+        $stmt3->bind_param("i", $user_id);
+        $stmt3->execute();
+        $stmt3->close();
         
         header("Location: ../user/notifications.php?msg=deleted_all");
     }
@@ -70,27 +95,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!empty($reason) && $notif_id > 0) {
             // التحقق من أن الإشعار يخص المستخدم
-            $check = $conn->query("SELECT notification_id FROM notifications WHERE notification_id = $notif_id AND user_id = $user_id");
+            $chk_stmt = $conn->prepare("SELECT notification_id FROM notifications WHERE notification_id = ? AND user_id = ?");
+            $chk_stmt->bind_param("ii", $notif_id, $user_id);
+            $chk_stmt->execute();
+            $check = $chk_stmt->get_result();
+            
             if ($check->num_rows > 0) {
+                $chk_stmt->close();
                 
                 // التحقق من عدم وجود اعتراض مسبق لنفس الإنذار لمنع التكرار
-                $check_appeal = $conn->query("SELECT appeal_id FROM appeals WHERE notification_id = $notif_id");
+                $chk_app = $conn->prepare("SELECT appeal_id FROM appeals WHERE notification_id = ?");
+                $chk_app->bind_param("i", $notif_id);
+                $chk_app->execute();
+                $check_appeal = $chk_app->get_result();
+                
                 if ($check_appeal->num_rows > 0) {
+                    $chk_app->close();
                     header("Location: ../user/notifications.php?error=appeal_exists");
                     exit();
                 }
+                $chk_app->close();
 
                 $stmt = $conn->prepare("INSERT INTO appeals (user_id, notification_id, reason) VALUES (?, ?, ?)");
                 $stmt->bind_param("iis", $user_id, $notif_id, $reason);
                 if ($stmt->execute()) {
+                    $stmt->close();
                     // إرسال إشعار للمستخدم بتأكيد استلام الاعتراض
                     $msg = "تم استلام اعتراضك بنجاح وسيتم مراجعته من قبل الإدارة في أقرب وقت.";
-                    $conn->query("INSERT INTO notifications (user_id, message, type, created_at) VALUES ($user_id, '$msg', 'info', NOW())");
+                    $ins_notif = $conn->prepare("INSERT INTO notifications (user_id, message, type, created_at) VALUES (?, ?, 'info', NOW())");
+                    $ins_notif->bind_param("is", $user_id, $msg);
+                    $ins_notif->execute();
+                    $ins_notif->close();
                     
                     header("Location: ../user/notifications.php?msg=appeal_sent");
                 } else {
+                    $stmt->close();
                     header("Location: ../user/notifications.php?error=appeal_failed");
                 }
+            } else {
+                $chk_stmt->close();
             }
         } else {
             header("Location: ../user/notifications.php?error=empty_reason");
@@ -101,9 +144,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     elseif ($action === 'subscribe_availability') {
         $prov_id = intval($_POST['provider_id']);
         $main_id = $_POST['main_id'] ?? '';
-        // استخدام INSERT IGNORE لتجنب التكرار بفضل القيد UNIQUE في قاعدة البيانات
-        // نفترض وجود جدول availability_subscriptions (requester_id, provider_id)
-        $conn->query("INSERT IGNORE INTO availability_subscriptions (requester_id, provider_id) VALUES ($user_id, $prov_id)");
+        $stmt = $conn->prepare("INSERT IGNORE INTO availability_subscriptions (requester_id, provider_id) VALUES (?, ?)");
+        $stmt->bind_param("ii", $user_id, $prov_id);
+        $stmt->execute();
+        $stmt->close();
         header("Location: ../user/services_list.php?main_id=$main_id&subscribe_success=1#card-" . $prov_id);
         exit();
     }
@@ -112,7 +156,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     elseif ($action === 'unsubscribe_availability') {
         $prov_id = intval($_POST['provider_id']);
         $main_id = $_POST['main_id'] ?? '';
-        $conn->query("DELETE FROM availability_subscriptions WHERE requester_id = $user_id AND provider_id = $prov_id");
+        $stmt = $conn->prepare("DELETE FROM availability_subscriptions WHERE requester_id = ? AND provider_id = ?");
+        $stmt->bind_param("ii", $user_id, $prov_id);
+        $stmt->execute();
+        $stmt->close();
         header("Location: ../user/services_list.php?main_id=$main_id&unsubscribe_success=1#card-" . $prov_id);
         exit();
     }

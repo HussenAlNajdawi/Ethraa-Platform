@@ -143,37 +143,25 @@ Ethraa bridges this gap by awarding every newly verified user welcome points to 
 
 Ethraa is constructed using a decoupled, lightweight Native PHP Web Architecture without heavy third-party framework overhead.
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Presentation Layer (Client)                     │
-│   HTML5 / CSS3 / Bootstrap 5 / Vanilla JS / SweetAlert2 / Dark Mode    │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ HTTP / HTTPS (JSON & Form Requests)
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                     Security & Bootstrap Layer                         │
-│  - config/session_bootstrap.php (HttpOnly, SameSite=Lax, Secure flags) │
-│  - config/db_connect.php (CSP Headers, Inactivity Timeout, Versioning) │
-│  - CSRF Token Validation Layer (hash_equals across all POST endpoints) │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-          ┌─────────────────────────┴─────────────────────────┐
-          ▼                                                   ▼
-┌───────────────────────────────────┐       ┌───────────────────────────────────┐
-│     User Application Module       │       │    Administrative Module (RBAC)   │
-│  - Authentication & Password Reset│       │  - Admin Login & Audit Logging    │
-│  - Service Directory & Booking    │       │  - User Management & Moderation   │
-│  - Real-time Chat & GD Uploads    │       │  - Category & Service Management  │
-│  - Points Wallet & Review System  │       │  - Report Handling & Appeals      │
-└─────────────────┬─────────────────┘       └─────────────────┬─────────────────┘
-                  │                                           │
-                  └─────────────────────┬─────────────────────┘
-                                        │ MySQLi Prepared Statements (bind_param)
-                                        ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Data Storage Layer (MySQL)                      │
-│   InnoDB Engine | Foreign Keys | Row Locks (FOR UPDATE) | ACID Trans   │
-└────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Client[Client Browser / Presentation Layer]
+    Web[Apache Web Server / .htaccess Rules]
+    Sec[Security & Bootstrap Layer - session_bootstrap.php & db_connect.php]
+    UserApp[User Module: Auth, Services, Chat, Wallet, Reviews]
+    AdminApp[Admin Module: Dashboard, RBAC, Moderation, Audit Logs]
+    DB[(MySQL / MariaDB - InnoDB Engine)]
+    FS[(Local Filesystem - Uploads & GD Sanitized Attachments)]
+    Mail[SMTP Mail Service - PHPMailer]
+
+    Client <-->|HTTP / HTTPS| Web
+    Web <--> Sec
+    Sec <--> UserApp
+    Sec <--> AdminApp
+    UserApp <-->|MySQLi Prepared Statements| DB
+    AdminApp <-->|MySQLi Prepared Statements| DB
+    UserApp <-->|Sanitized Uploads| FS
+    UserApp -->|Verification & Password Reset| Mail
 ```
 
 ---
@@ -379,6 +367,24 @@ Comprehensive automated dynamic tests were executed on a live local environment 
 | **Review Single-Submission** | `UNIQUE KEY (request_id)` | Duplicate review on completed request rejected | ✅ **PASS** |
 
 > **Assessment Summary:** *No exploitable vulnerabilities were identified within the tested application surface and local execution environment.*
+
+---
+
+## 📸 Screenshots
+
+> Screenshots can be placed in `docs/screenshots/` to visually showcase the application interfaces.
+
+| Landing Page & Discovery | Dark Mode Experience |
+| :---: | :---: |
+| *(Capture: `docs/screenshots/home.png`)* | *(Capture: `docs/screenshots/dark-mode.png`)* |
+
+| Service Booking & Requests | Private Chat & Moderation |
+| :---: | :---: |
+| *(Capture: `docs/screenshots/booking.png`)* | *(Capture: `docs/screenshots/chat.png`)* |
+
+| Points Wallet Ledger | Admin Control Dashboard |
+| :---: | :---: |
+| *(Capture: `docs/screenshots/wallet.png`)* | *(Capture: `docs/screenshots/admin-dashboard.png`)* |
 
 ---
 

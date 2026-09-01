@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 // إنشاء CSRF Token إذا لم يكن موجوداً

@@ -1,3 +1,6 @@
+<?php
+require_once 'config/db_connect.php';
+?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -31,6 +34,7 @@
             </p>
 
             <form action="php/send_reset_link.php" method="POST" onsubmit="return validateEmailForm()">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
                 
                 <div class="custom-input-group">
                     <input type="email" name="email" id="emailInput" class="form-control custom-input" 

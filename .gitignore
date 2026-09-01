@@ -1,22 +1,8 @@
-# Sensitive Configuration
-config/mail_config.php
+﻿config/mail_config.php
 .env
-
-# Uploads (Keep folder structure & protection, ignore user test files)
-uploads/chat/*
-!uploads/chat/.gitkeep
-!uploads/chat/.htaccess
-!uploads/.htaccess
-
-# Logs & Temporary files
 *.log
-*.tmp
-*.bak
-*.swp
 
-# OS & IDE Files
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-nbproject/
+# Chat & User uploads
+uploads/chat/*
+!uploads/chat/.htaccess
+!uploads/chat/.gitkeep

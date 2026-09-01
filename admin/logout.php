@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once '../config/session_bootstrap.php';
 
 // حذف التوكن من قاعدة البيانات دائماً إذا كان الأدمن مسجل دخول
 if (isset($_SESSION['admin_id'])) {

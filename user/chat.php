@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -168,6 +167,7 @@ include '../includes/user_navbar.php';
 <script>
 let lastMsgId = 0;
 const reqId = <?php echo $request_id; ?>;
+const csrfToken = <?php echo json_encode($_SESSION['csrf_token'] ?? ''); ?>;
 const chatBox = document.getElementById("chatBox");
 
 function scrollToBottom() {
@@ -271,6 +271,7 @@ function reportMessage(msgId) {
             const reason = result.value;
             const formData = new FormData();
             formData.append('action', 'report_message');
+            formData.append('csrf_token', csrfToken);
             formData.append('request_id', reqId);
             formData.append('message_id', msgId);
             formData.append('reason', reason);
@@ -336,6 +337,7 @@ document.getElementById("msgInput").addEventListener("input", function() {
         lastTypingTime = now;
         const formData = new FormData();
         formData.append('request_id', reqId);
+        formData.append('csrf_token', csrfToken);
         fetch('../php/typing_status.php', { method: 'POST', body: formData });
     }
 });
@@ -371,6 +373,7 @@ function sendMessage() {
     document.getElementById("sendBtn").disabled = true;
 
     const formData = new FormData();
+    formData.append("csrf_token", csrfToken);
     formData.append("request_id", reqId);
     formData.append("message_text", text);
     

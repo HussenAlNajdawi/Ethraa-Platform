@@ -1,7 +1,6 @@
 <?php
 // php/register_process.php
-session_start();
-include '../config/db_connect.php'; 
+require_once '../config/db_connect.php'; 
 
 require '../assets/PHPMailer/Exception.php';
 require '../assets/PHPMailer/PHPMailer.php';
@@ -134,12 +133,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $pending_email = empty($email) ? null : $email;
     $verification_token = bin2hex(random_bytes(32));
-
-    $conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS verification_token VARCHAR(255) NULL");
-    $conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verified_at DATETIME NULL");
-    $conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_email VARCHAR(255) NULL");
-    $conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS referrer_id INT NULL");
-    $conn->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS referral_rewarded TINYINT(1) DEFAULT 0");
 
     $valid_referrer = null;
     if ($referrer_id > 0) {

@@ -1,16 +1,9 @@
 <?php
-session_start();
 require_once '../config/db_connect.php';
 require_once 'admin_functions.php';
 
 if (!isset($_SESSION['admin_id'])) { header("Location: admin_login.php"); exit(); }
 requireAdminPermission('manage_reports');
-
-// ✅ إصلاح تلقائي: التحقق من وجود عمود 'status' وإضافته إذا كان مفقوداً لتجنب الأخطاء
-$check_status = $conn->query("SHOW COLUMNS FROM reports LIKE 'status'");
-if ($check_status->num_rows == 0) {
-    $conn->query("ALTER TABLE reports ADD COLUMN status ENUM('pending', 'resolved') DEFAULT 'pending'");
-}
 
 // معالجة حذف البلاغ
 if (isset($_GET['delete'])) {
@@ -63,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_warning'])) {
         exit();
     } else {
         $raw_warning = $_POST['warning_message'];
-        $warning_msg = "إنذار إداري: " . $conn->real_escape_string($raw_warning);
+        $warning_msg = "إنذار إداري: " . $raw_warning;
         
         // إرسال الإنذار كإشعار من نوع warning
         $stmt = $conn->prepare("INSERT INTO notifications (user_id, message, type, created_at) VALUES (?, ?, 'warning', NOW())");
