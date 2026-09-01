@@ -1,0 +1,525 @@
+/* assets/css/account_style.css */
+
+/* ================= الجزء الخاص بالصفحة والنافبار (لم يتم لمسه) ================= */
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+
+body , html{
+    height: 100% !important;
+    overflow-y: auto !important;
+    margin: 0;
+    padding-top: 0 !important;
+    background-color: transparent !important; /* السماح للخلفية السوداء بالظهور في الوضع الليلي */
+    
+    /* إخفاء شريط التمرير لمتصفحات فايرفوكس وإيدج */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ================= بداية التعديلات على محتوى الصفحة (ليطابق الصورة) ================= */
+
+/* --- الحاوية الرئيسية (الصندوق الأزرق) --- */
+.account-container {
+    background-color: #CDE2EC; /* 🎨 نفس لون الصورة السماوي */
+    border-radius: 25px;
+    padding: 40px;
+    margin-top: 130px;
+    margin-bottom: 50px;
+    position: relative;
+    height: auto;           /* جعل الارتفاع مرن */
+    min-height: 600px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+
+/* --- العنوان --- */
+.page-title {
+    text-align: center;
+    color: #001A75;
+    font-weight: 800;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* أيقونة الرجوع */
+.back-icon {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.back-icon:hover { transform: scale(1.1); }
+
+/* --- البطاقات الداخلية --- */
+.info-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    border: none !important;
+}
+
+/* الشريط الملون */
+/* --- شريط العنوان الملون (التصميم الجديد) --- */
+.card-header-strip {
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    padding-left: 20px;
+    border-radius: 50px;
+    margin-top: 15px;
+    margin-right: 15px;
+    margin-left: 15px;
+
+}
+
+/* الألوان الرسمية للمشروع (غامقة) */
+.header-blue {
+    background-color: rgba(33, 115, 166, 0.25) !important;
+}
+.header-blue .card-title-text {
+    color: #021C7B;
+    font-weight: 800;
+    margin-right: 15px;
+}
+
+.header-green {
+    background-color: rgba(102, 191, 38, 0.25) !important;
+}
+.header-green .card-title-text {
+    color: #2e7d32;
+    font-weight: 800;
+    margin-right: 15px;
+}
+
+/* تنسيق النص (أبيض الآن ليناسب الخلفية الغامقة) */
+.card-title-text {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ffffff; 
+}
+
+/* --- تصميم الدائرة خلف الأيقونة --- */
+.icon-circle {
+    background-color: #ffffff; /* دائرة بيضاء */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* حجم الأيقونة داخل الدائرة */
+.icon-circle img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+}
+
+.card-body-custom {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px; /* مسافة موحدة بين العناصر */
+}
+
+/* --- تنسيق الصفوف والحقول --- */
+.form-row-custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+/* التسميات (الاسم، الرقم...) */
+.custom-label {
+    font-weight: 700;
+    color: #000;
+    font-size: 1rem;
+    width: 30%;
+    min-width: 90px;
+    text-align: right; /* محاذاة لليسار لتقترب من الحقل */
+    margin: 0;
+    padding-left: 15px;
+}
+
+/* الحقول (Inputs) */
+.custom-input {
+    background-color: #F2F2F2 !important;
+    border: none !important;
+    border-radius: 8px;
+    height: 45px; /* ارتفاع الحقل */
+    width: 70% !important;
+    padding: 0 15px;
+    font-weight: 600;
+    color: #333;
+    text-align: right;
+    outline: none;
+    box-shadow: none !important;
+}
+.custom-input:focus {
+    background-color: #fff !important;
+    box-shadow: 0 0 0 2px #003366 !important;
+}
+
+/* --- تنسيق خاص لحقل الهاتف --- */
+.contact-wrapper {
+    width: 70%;
+}
+.phone-wrapper {
+    width: 70% !important;
+    background-color: #F2F2F2;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    height: 45px;
+    padding: 0 15px;
+    direction: ltr !important; /* إجبار الاتجاه من اليسار لليمين */
+}
+
+/* --- تنسيق الراديو (ذكر/أنثى) --- */
+.radio-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 20px;
+    width: 70%;
+    padding-right: 5px;
+}
+
+/* --- تنسيق وقت الفراغ (مطابق للصفحة الرئيسية) --- */
+.availability-wrapper {
+    width: 70%;
+}
+
+/* 1. مفتاح التبديل (Segmented Control) */
+.availability-switch {
+    display: flex;
+    background-color: #F2F2F2 !important; /* نفس لون الحقول الأخرى */
+    border-radius: 8px; /* نفس تدوير الحواف */
+    padding: 4px;
+    margin-bottom: 10px;
+    position: relative;
+    justify-content: space-between;
+    border: none !important; /* إزالة الحدود لتطابق الحقول */
+    width: 100%;
+    height: 45px; /* نفس ارتفاع الحقول */
+    align-items: center;
+}
+
+.availability-switch input[type="radio"] {
+    display: none;
+}
+
+.availability-switch label {
+    flex: 1;
+    text-align: center;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #6c757d;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+/* الحالة النشطة */
+.availability-switch input[type="radio"]:checked + label {
+    background-color: #fff;
+    color: #104496;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ألوان خاصة لكل حالة عند التحديد */
+#type_always:checked + label { color: #2e7d32; }
+#type_unavailable:checked + label { color: #c62828; }
+
+/* 2. حقول الوقت */
+.time-selection-container, .time-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between !important;
+    gap: 10px;
+    margin-bottom: 5px;
+    direction: rtl;
+    width: 100%;
+}
+
+.time-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-group-label {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.time-input-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 12px !important;
+    padding: 5px 10px;
+    box-shadow: none !important;
+    min-width: 100px;
+}
+
+.time-input-box:focus-within {
+    border-color: #66BF26 !important;
+    box-shadow: none;
+}
+
+.time-field {
+    border: none;
+    width: 38px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #333;
+    outline: none;
+    background: transparent !important;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* إخفاء أسهم الأرقام */
+.time-field::-webkit-outer-spin-button,
+.time-field::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none; /* الخاصية القياسية */
+    margin: 0;
+}
+.time-field[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield; /* الخاصية القياسية */
+}
+
+.time-colon {
+    font-weight: 700;
+    color: #ccc;
+    margin: 0 4px;
+    padding-bottom: 4px;
+    font-size: 1.2rem;
+}
+
+.time-arrow {
+    color: #66BF26;
+    font-size: 0.9rem;
+    margin: 0 10px;
+}
+
+/* --- دعم التصميم القديم (في حال لم يتم تحديث HTML) --- */
+.time-box-small, .time-section input {
+    background-color: #fff !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 12px !important;
+    height: 45px !important;
+    width: 60px !important;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem !important;
+    color: #333 !important;
+    box-shadow: none !important;
+}
+
+/* زر حفظ الوقت المخصص (الأخضر) - مطابق للصفحة الرئيسية */
+.btn-custom-save {
+    background-color: #66BF26 !important; /* اللون الأخضر الخاص بالهوية */
+    border: none !important;
+    color: white !important;
+    box-shadow: none !important;
+    transition: background-color 0.2s;
+    padding: 5px 20px !important;
+    font-size: 0.9rem;
+    border-radius: 50px;
+}
+
+.btn-custom-save:hover {
+    background-color: #4C9F16 !important;
+    box-shadow: none !important;
+}
+
+/* --- الأزرار (Buttons) - إضافة الألوان الناقصة --- */
+
+/* تنسيق موحد للأزرار */
+.btn-action-base {
+    border: none;
+    border-radius: 12px; /* توحيد الحواف مع الحقول */
+    padding: 12px 25px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%; /* ملء العرض المتاح */
+    margin-top: 15px;
+}
+
+/* 1. زر الحفظ (أزرق) */
+.btn-save-custom {
+    background-color: #104496;
+    color: white;
+}
+.btn-save-custom:hover { 
+    background-color: #0d3675; 
+    transform: translateY(-2px);
+}
+/* تنسيق الزر عندما يكون معطلاً (لا يوجد تعديلات) */
+.btn-save-custom:disabled {
+    background-color: #f1f3f5 !important;
+    color: #adb5bd !important;
+    border: 1px solid #dee2e6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* 2. زر إلغاء الحساب (أحمر) */
+.btn-delete-custom {
+    background-color: #ffe3e3;
+    color: #E60004;
+    border: 1px solid #ffc9c9;
+}
+.btn-delete-custom:hover { 
+    background-color: #E60004; 
+    color: white;
+}
+
+/* 3. زر تغيير كلمة المرور (رمادي فاتح) */
+.btn-change-pass {
+    background-color: #f1f3f5;
+    color: #333;
+    border: 1px solid #dee2e6;
+}
+.btn-change-pass:hover { 
+    background-color: #e9ecef; 
+    color: #000;
+}
+
+/* صندوق رابط الدعوة */
+.referral-wrapper {
+    width: 70%;
+}
+
+/* عدد الطلبات */
+.orders-text {
+    text-align: right;
+    font-weight: 700;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    color: #000;
+}
+
+/* 4. زر تسجيل الخروج من جميع الأجهزة (برتقالي فاتح) */
+.btn-logout-all {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+.btn-logout-all:hover { 
+    background-color: #ffeeba; 
+    color: #856404;
+}
+
+/* ============================================================== */
+/* --- استجابة الشاشات المختلفة (Responsive Design) لصفحة حسابي --- */
+/* ============================================================== */
+
+/* أجهزة الايباد والتابلت */
+@media (max-width: 991.98px) {
+    .account-container {
+        padding: 30px;
+        margin-top: 110px;
+    }
+    .custom-label {
+        width: 40%;
+    }
+    .custom-input, .phone-wrapper, .radio-container, .referral-wrapper, .availability-wrapper {
+        width: 60% !important;
+    }
+    .page-title {
+        font-size: 2rem;
+    }
+}
+
+/* الشاشات الصغيرة (الموبايل) */
+@media (max-width: 768px) {
+    .account-container {
+        padding: 20px;
+        margin-top: 100px;
+    }
+    .page-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+    .back-icon {
+        top: 20px;
+        left: 20px;
+    }
+    .card-body-custom {
+        padding: 20px 15px;
+    }
+    .form-row-custom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .custom-label {
+        width: 100%;
+        text-align: right;
+        padding-left: 0;
+    }
+    .custom-input, .contact-wrapper, .phone-wrapper, .radio-container, .availability-switch, .time-selection-container, .time-section, .referral-wrapper, .availability-wrapper {
+        width: 100% !important;
+    }
+    .radio-container {
+        justify-content: flex-start;
+    }
+    .time-selection-container, .time-section {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    .time-group-wrapper {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .account-container {
+        padding: 15px;
+    }
+    .page-title {
+        font-size: 1.5rem;
+    }
+    .custom-input, .phone-wrapper {
+        height: 40px;
+        font-size: 0.9rem;
+    }
+}

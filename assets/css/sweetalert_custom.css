@@ -1,0 +1,69 @@
+/* assets/css/sweetalert_custom.css */
+
+/* Custom styles for SweetAlert2 to match the site's identity */
+.swal2-popup {
+    font-family: 'Cairo', sans-serif !important;
+    border-radius: 25px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+}
+
+.swal2-title {
+    font-weight: 700 !important;
+    color: #021C7B !important; /* Dark Blue */
+}
+
+.swal2-html-container {
+    color: #555 !important;
+    font-weight: 500 !important;
+}
+
+/* --- Button Styles --- */
+.swal2-confirm {
+    background-color: #021C7B !important; /* Dark Blue */
+    border-radius: 12px !important;
+    padding: 10px 30px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(2, 28, 123, 0.2) !important;
+    transition: all 0.3s ease !important;
+}
+.swal2-confirm:hover {
+    transform: translateY(-2px);
+}
+
+.swal2-cancel {
+    background-color: #f1f3f5 !important;
+    color: #555 !important;
+    border-radius: 12px !important;
+    padding: 10px 30px !important;
+    font-weight: 600 !important;
+}
+
+/* --- Icon Colors --- */
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(122, 189, 40, 0.3) !important; /* Light Green */
+}
+.swal2-icon.swal2-success [class^=swal2-success-line] {
+    background-color: #7abd28 !important; /* Green */
+}
+
+.swal2-icon.swal2-error {
+    border-color: #E01010 !important; /* Red */
+}
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    background-color: #E01010 !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #ffc107 !important; /* Yellow */
+    color: #856404 !important;
+}
+
+.swal2-icon.swal2-info {
+    border-color: #0d6efd !important; /* Blue */
+    color: #0d6efd !important;
+}
+
+/* إخفاء زر الإغلاق X من نوافذ SweetAlert */
+.swal2-close {
+    display: none !important;
+}

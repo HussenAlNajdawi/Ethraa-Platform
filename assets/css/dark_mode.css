@@ -1,0 +1,855 @@
+/* assets/css/dark_mode.css */
+
+/* متغيرات الوضع الليلي */
+html.dark-mode {
+    --bg-color: #000000; /* أسود ليلي عميق (OLED Black) */
+    --text-color: #f0f6fc; /* أبيض ناصع ومريح للقراءة */
+    --text-gray: #8b949e; /* رمادي متباين للنصوص الفرعية */
+    --card-bg: #0d1117; /* لون كروت كحلي/أسود فاتح للتمايز الواضح عن الخلفية */
+    --section-bg: #161b22; /* لون حقول الإدخال والدوائر الداخلية */
+    --border-color: #30363d; /* حدود متناسقة تحدد العناصر بأناقة */
+    --nav-bg: #010409; /* لون القوائم العلوية */
+    --dark-blue-replace: #58a6ff; /* أزرق ساطع للتميز (متناسق مع الهوية) */
+}
+
+/* ============================================================== */
+/* --- إعدادات وتعديلات الوضع الليلي الشاملة (Global Dark Mode) --- */
+/* ============================================================== */
+
+/* زر التبديل للوضع الليلي */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--dark-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 990;
+    border: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+/* أنيميشن الدوران للأيقونة (الشمس/القمر) عند التبديل */
+@keyframes spinToggle {
+    0% { transform: rotate(-360deg) scale(0.5); opacity: 0; }
+    100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.dark-mode-toggle i {
+    animation: spinToggle 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dark-mode-toggle:hover {
+    transform: scale(1.1);
+}
+
+html.dark-mode .dark-mode-toggle {
+    background-color: #f1c40f;
+    color: #333;
+}
+
+/* العناوين في الوضع الليلي */
+html.dark-mode .page-title,
+html.dark-mode .terms-title,
+html.dark-mode .about-title,
+html.dark-mode .guide-title,
+html.dark-mode .card-title,
+html.dark-mode .provider-name,
+html.dark-mode .imprint-title,
+html.dark-mode .dash-title,
+html.dark-mode .cat-label,
+html.dark-mode .card-back h5,
+html.dark-mode .step-content h5,
+html.dark-mode h1, html.dark-mode h2, html.dark-mode h3, html.dark-mode h4, html.dark-mode h5, html.dark-mode h6 {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* تمييز الجملة الترحيبية باللون الأخضر في الوضع الليلي فقط */
+html.dark-mode .welcome-title {
+    color: #66BF26 !important;
+}
+
+/* العنوان الرئيسي في الصفحة الرئيسية بالوضع الليلي باللون الأبيض */
+html.dark-mode .hero-title {
+    color: #ffffff !important;
+}
+
+html.dark-mode .hero-title .highlight-green {
+    color: #66BF26 !important;
+}
+
+/* الحفاظ على اللون الأبيض لكلمة إثراء والنصوص في الجانب الملون لصفحات الدخول والتسجيل */
+html.dark-mode .brand-title,
+html.dark-mode .brand-subtitle {
+    color: #ffffff !important;
+}
+
+/* تمييز عنوان "إنشاء حساب" باللون الأخضر في الوضع الليلي */
+html.dark-mode .register-card .page-title {
+    color: #66BF26 !important;
+}
+
+/* تلوين روابط التبديل أسفل الفورم في الوضع الليلي */
+html.dark-mode .login-card a.text-dark {
+    color: var(--dark-blue-replace) !important; /* أزرق في صفحة الدخول */
+}
+html.dark-mode .register-card a.text-dark {
+    color: #66BF26 !important; /* أخضر في صفحة إنشاء الحساب */
+}
+
+/* الخلفيات والصناديق البيضاء والرمادية */
+html.dark-mode,
+html.dark-mode body,
+html.dark-mode .modal-content,
+html.dark-mode .swal2-popup {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* جعل الفوتر بنفس سواد خلفية الصفحة */
+html.dark-mode .footer {
+    background-color: var(--bg-color) !important;
+}
+
+html.dark-mode .guide-card,
+html.dark-mode .login-card,
+html.dark-mode .register-card,
+html.dark-mode .info-card,
+html.dark-mode .welcome-card,
+html.dark-mode .dashboard-card,
+html.dark-mode .service-card .card-front,
+html.dark-mode .service-card .card-back,
+html.dark-mode .p-3.bg-white,
+html.dark-mode .p-4.bg-white,
+html.dark-mode .table-responsive,
+html.dark-mode .form-section,
+html.dark-mode #sidebar-wrapper,
+html.dark-mode .terms-box,
+html.dark-mode .about-gray-box,
+html.dark-mode .card,
+html.dark-mode .bg-white,
+html.dark-mode .bg-light,
+html.dark-mode .border-light {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* القوائم العلوية (Navbar) */
+html.dark-mode .user-navbar,
+html.dark-mode .navbar,
+html.dark-mode .navbar-collapse {
+    background-color: var(--nav-bg) !important;
+    border: none !important; /* إزالة الإطار المستطيل حول النافبار */
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7) !important; /* تعزيز الظل ليفصل النافبار عن الخلفية */
+}
+
+/* توضيح زر البرغر (القائمة الجانبية) في الوضع الليلي */
+html.dark-mode .navbar-toggler {
+    border: none !important;
+    background-color: transparent !important;
+}
+html.dark-mode .navbar-toggler-icon {
+    filter: invert(1) brightness(1.5) !important;
+}
+
+html.dark-mode .user-navbar .text-dark {
+    color: #e0e0e0 !important;
+}
+
+/* إزالة الإطار والخلفية عن هيدر الإدارة في الوضع الليلي ليعود لشكله الطبيعي */
+html.dark-mode #page-content-wrapper .navbar {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+html.dark-mode .nav-link {
+    color: var(--text-color) !important;
+}
+html.dark-mode .nav-link.active, 
+html.dark-mode .nav-link:hover {
+    color: var(--dark-blue-replace) !important;
+}
+html.dark-mode .nav-link.active::after {
+    background-color: var(--dark-blue-replace) !important;
+}
+
+/* الحقول وصناديق الإدخال والبحث */
+html.dark-mode .custom-input,
+html.dark-mode .phone-wrapper,
+html.dark-mode .form-control,
+html.dark-mode .form-select,
+html.dark-mode .time-input-box,
+html.dark-mode .time-field,
+html.dark-mode .availability-switch,
+html.dark-mode .custom-search-box,
+html.dark-mode .styled-select,
+html.dark-mode .admin-search-box {
+    background-color: var(--section-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+html.dark-mode .custom-input:focus,
+html.dark-mode .form-control:focus,
+html.dark-mode .form-select:focus,
+html.dark-mode .admin-search-box:focus-within {
+    background-color: var(--card-bg) !important;
+    border-color: var(--dark-blue-replace) !important;
+}
+
+/* إصلاح مشكلة اللون الأبيض عند الملء التلقائي (Autofill) في المتصفحات */
+html.dark-mode input:-webkit-autofill,
+html.dark-mode input:-webkit-autofill:hover, 
+html.dark-mode input:-webkit-autofill:focus, 
+html.dark-mode input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--section-bg) inset !important;
+    -webkit-text-fill-color: var(--text-color) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+html.dark-mode .custom-input:focus:-webkit-autofill,
+html.dark-mode .form-control:focus:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--card-bg) inset !important;
+}
+
+/* تخصيص لون التحديد (Focus) ليكون أخضر بدلاً من الأزرق في صفحة إنشاء الحساب */
+html.dark-mode .register-card .custom-input:focus,
+html.dark-mode .register-card .form-control:focus {
+    border-color: #66BF26 !important;
+}
+
+/* تنسيقات القائمة المنسدلة للبحث (مكتبة Select2) في الوضع الليلي */
+html.dark-mode .select2-container--default .select2-selection--single {
+    background-color: var(--section-bg) !important;
+    border-color: var(--border-color) !important;
+}
+html.dark-mode .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--text-color) !important;
+}
+html.dark-mode .select2-dropdown {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+html.dark-mode .select2-search--dropdown .select2-search__field {
+    background-color: var(--section-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+html.dark-mode .select2-container--default .select2-results__option {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+html.dark-mode .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: rgba(88, 166, 255, 0.15) !important;
+    color: var(--dark-blue-replace) !important;
+}
+html.dark-mode .select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: var(--section-bg) !important;
+}
+
+/* حالة الأخطاء (Validation) للحقول في الوضع الليلي */
+html.dark-mode .custom-input.input-error {
+    border-color: #ff6b6b !important; /* لون أحمر ساطع للحدود */
+    background-color: rgba(220, 53, 69, 0.15) !important; /* خلفية حمراء داكنة شفافة */
+}
+
+html.dark-mode .custom-input.input-success {
+    border-color: #28a745 !important; /* لون أخضر للحدود */
+    background-color: rgba(40, 167, 69, 0.1) !important; /* خلفية خضراء داكنة شفافة */
+}
+
+html.dark-mode input::placeholder,
+html.dark-mode textarea::placeholder {
+    color: var(--text-gray) !important;
+}
+
+/* العناصر الدائرية، الصناديق الصغيرة والزخارف */
+html.dark-mode .cat-circle,
+html.dark-mode .time-box,
+html.dark-mode .contact-info,
+html.dark-mode .order-icon-box,
+html.dark-mode .progress-container,
+html.dark-mode .request-icon-box,
+html.dark-mode .available-now-box {
+    background-color: var(--section-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* إزالة المستطيل (الحدود) حول التبويبات في الوضع الليلي */
+html.dark-mode .nav-pills .nav-link {
+    background-color: var(--section-bg) !important;
+    border-color: transparent !important;
+    color: var(--text-color) !important;
+}
+
+html.dark-mode .contact-info p,
+html.dark-mode .request-details-box {
+    color: var(--text-color) !important;
+    background-color: var(--section-bg) !important;
+}
+
+/* أيقونات داخل الصناديق */
+html.dark-mode .time-box i,
+html.dark-mode .contact-info i {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* النصوص الرمادية */
+html.dark-mode .text-muted,
+html.dark-mode .terms-heading,
+html.dark-mode .sub-heading,
+html.dark-mode .custom-label,
+html.dark-mode .points-text-box,
+html.dark-mode .current-balance,
+html.dark-mode .guide-subtitle,
+html.dark-mode .step-content p {
+    color: var(--text-gray) !important;
+}
+
+/* تحسين وضوح نصوص الخطأ (الحمراء) في الوضع الليلي */
+html.dark-mode .text-danger {
+    color: #ff6b6b !important;
+}
+
+/* الجداول في لوحة التحكم */
+html.dark-mode .table,
+html.dark-mode .table th,
+html.dark-mode .table td {
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+    background-color: transparent !important;
+    box-shadow: none !important; /* إلغاء تظليل بوتستراب الذي يسبب بياض الخلايا */
+}
+
+/* صفوف الجدول (الخفيفة / table-light) المستخدمة في صفحة الخدمات والإشعارات */
+html.dark-mode .table-light,
+html.dark-mode tr.table-light,
+html.dark-mode .table-light th {
+    background-color: var(--section-bg) !important;
+    color: var(--dark-blue-replace) !important;
+}
+
+html.dark-mode .table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* إزالة تلوين بوتستراب الافتراضي للصفوف لضمان تطبيق اللون الداكن بوضوح */
+html.dark-mode .table-light,
+html.dark-mode tr.table-light,
+html.dark-mode .table-light th,
+html.dark-mode .table-success,
+html.dark-mode tr.table-success,
+html.dark-mode .table-danger,
+html.dark-mode tr.table-danger {
+    --bs-table-bg: transparent !important;
+}
+
+/* تلوين المستلم في جدول الإشعارات للإدارة */
+html.dark-mode .recipient-name {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* صفوف الجدول (الناجحة / table-success) المستخدمة في البلاغات المحلولة */
+html.dark-mode .table-success,
+html.dark-mode tr.table-success {
+    background-color: rgba(40, 167, 69, 0.15) !important;
+    color: var(--text-color) !important;
+}
+
+/* صفوف الجدول (الخطيرة / table-danger) المستخدمة في الإنذارات */
+html.dark-mode .table-danger,
+html.dark-mode tr.table-danger {
+    background-color: rgba(220, 53, 69, 0.15) !important;
+    color: var(--text-color) !important;
+}
+
+/* إصلاح الألوان المضمنة (Inline Styles) الساطعة في جداول وبطاقات الإدارة (مثل البلاغات ولوحة التحكم) */
+html.dark-mode [style*="background-color: #fff5f5"],
+html.dark-mode [style*="background-color: #fff"],
+html.dark-mode [style*="background-color: #ffffff"],
+html.dark-mode [style*="background-color: #e8f5e9"],
+html.dark-mode [style*="background-color: #e3f2fd"],
+html.dark-mode [style*="background-color: #ffebee"],
+html.dark-mode [style*="background-color: #e2e3e5"],
+html.dark-mode [style*="background-color: #fff3cd"] {
+    background-color: var(--section-bg) !important;
+}
+
+/* الخطوط الفاصلة */
+html.dark-mode .card-divider {
+    background-color: var(--dark-blue-replace) !important;
+}
+html.dark-mode .tree-line-vertical, 
+html.dark-mode .tree-line-horizontal,
+html.dark-mode .guide-card::before {
+    background-color: var(--border-color) !important;
+}
+
+/* حاوية حسابي */
+html.dark-mode .account-container {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color);
+}
+
+/* نوافذ Modal و SweetAlert */
+html.dark-mode .modal-header,
+html.dark-mode .modal-footer {
+    border-color: var(--border-color) !important;
+}
+html.dark-mode .btn-close {
+    filter: invert(1);
+}
+html.dark-mode .swal2-title {
+    color: var(--text-color) !important;
+}
+html.dark-mode .swal2-html-container {
+    color: var(--text-gray) !important;
+}
+
+/* ============================================================== */
+/* --- تعديلات لوحة الإدارة (Admin) في الوضع الليلي --- */
+/* ============================================================== */
+
+/* القائمة الجانبية للأدمن (Sidebar) وتأثير التمرير */
+html.dark-mode .list-group-item {
+    color: var(--text-color);
+}
+html.dark-mode .list-group-item:not(.text-danger):hover:not(.active) {
+    background-color: rgba(88, 166, 255, 0.15) !important;
+    color: var(--dark-blue-replace) !important;
+}
+html.dark-mode .list-group-item.text-danger:hover {
+    background-color: rgba(220, 53, 69, 0.15) !important;
+    color: #ff6b6b !important;
+}
+
+/* تلوين التبويب النشط في القائمة الجانبية للإدارة */
+html.dark-mode .list-group-item.active {
+    background-color: #0d2247 !important; /* كحلي أنيق ومتناسق */
+    color: var(--dark-blue-replace) !important;
+    border-right: 4px solid var(--dark-blue-replace);
+}
+html.dark-mode .list-group-item.active img {
+    filter: brightness(0) invert(0.8) !important;
+}
+
+/* تصحيح لون أيقونة القائمة (الهامبرغر) والنصوص الرئيسية */
+html.dark-mode .primary-text {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* ألوان الدوائر الخلفية للإحصائيات في الإدارة */
+html.dark-mode .secondary-bg,
+html.dark-mode .primary-text.border.rounded-full { background-color: rgba(88, 166, 255, 0.15) !important; }
+html.dark-mode .text-danger.border.rounded-full { background-color: rgba(220, 53, 69, 0.15) !important; }
+html.dark-mode .text-warning.border.rounded-full { background-color: rgba(255, 193, 7, 0.15) !important; }
+html.dark-mode .text-secondary.border.rounded-full { background-color: rgba(108, 117, 125, 0.15) !important; }
+
+/* تلوين الشارات (Pills) لزيادة وضوحها */
+html.dark-mode .status-pill.main { background-color: rgba(88, 166, 255, 0.15); color: var(--dark-blue-replace); border-color: rgba(88, 166, 255, 0.3); }
+html.dark-mode .status-pill.sub { background-color: rgba(102, 191, 38, 0.15); color: #66BF26; border-color: rgba(102, 191, 38, 0.3); }
+html.dark-mode .status-pill.secondary { background-color: rgba(108, 117, 125, 0.15); color: var(--text-gray); border-color: rgba(108, 117, 125, 0.3); }
+html.dark-mode .status-pill.blocked { color: #ff6b6b; border-color: rgba(255, 107, 107, 0.3); }
+
+/* لون عدد المسجلين وسهم الخدمات الفرعية في الإدارة */
+html.dark-mode .count-badge {
+    color: var(--text-color) !important;
+}
+html.dark-mode .count-badge.main-count {
+    color: var(--dark-blue-replace) !important;
+}
+html.dark-mode .toggle-subs i {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* نصوص المودال في الإدارة */
+html.dark-mode #modalReportContent,
+html.dark-mode #modalAppealReason,
+html.dark-mode #modalOriginalWarning {
+    color: var(--text-color) !important;
+}
+
+html.dark-mode #modalReporterName,
+html.dark-mode #modalReportedName,
+html.dark-mode #modalReporterName a,
+html.dark-mode #modalReportedName a {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* رسائل التنبيه (Alerts) */
+html.dark-mode .alert-success {
+    background-color: rgba(40, 167, 69, 0.15) !important;
+    color: #66BF26 !important;
+    border-color: rgba(40, 167, 69, 0.3) !important;
+}
+html.dark-mode .alert-danger {
+    background-color: rgba(220, 53, 69, 0.15) !important;
+    color: #ff6b6b !important;
+    border-color: rgba(220, 53, 69, 0.3) !important;
+}
+
+/* فلتر الإحصائيات في لوحة التحكم */
+html.dark-mode .filter-toggle {
+    background-color: var(--section-bg) !important;
+    border-color: var(--border-color) !important;
+}
+html.dark-mode .filter-btn.active {
+    background-color: var(--card-bg) !important;
+    color: var(--dark-blue-replace) !important;
+    box-shadow: none !important;
+}
+
+/* تلوين الأزرار المخصصة في الإدارة (قبول/رفض) */
+html.dark-mode .btn-custom-accept {
+    background-color: rgba(102, 191, 38, 0.15) !important;
+    color: #66BF26 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+html.dark-mode .btn-custom-accept:hover {
+    background-color: rgba(102, 191, 38, 0.25) !important;
+}
+html.dark-mode .btn-custom-reject {
+    background-color: rgba(220, 53, 69, 0.15) !important;
+    color: #ff6b6b !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+html.dark-mode .btn-custom-reject:hover {
+    background-color: rgba(220, 53, 69, 0.25) !important;
+}
+
+/* الأيقونات البيضاء والسوداء */
+html.dark-mode .cat-circle img,
+html.dark-mode .list-group-item:not(.active) img,
+html.dark-mode .admin-search-icon,
+html.dark-mode .search-icon-img,
+html.dark-mode .input-icon,
+html.dark-mode .cat-icon img,
+html.dark-mode .social-icons img {
+    filter: brightness(0) invert(0.8) !important;
+}
+
+/* الأزرار الزرقاء الرئيسية */
+html.dark-mode .btn-book,
+html.dark-mode .card-back .btn-success,
+html.dark-mode .btn-save-custom,
+html.dark-mode .btn-admin-primary,
+html.dark-mode .admin-shield-icon-circle,
+html.dark-mode .btn-primary {
+    background-color: var(--dark-blue-replace) !important;
+    color: #121212 !important;
+    border-color: var(--dark-blue-replace) !important;
+}
+
+html.dark-mode .btn-book:hover,
+html.dark-mode .card-back .btn-success:hover,
+html.dark-mode .btn-save-custom:hover,
+html.dark-mode .btn-admin-primary:hover,
+html.dark-mode .btn-primary:hover {
+    background-color: #3b8cf0 !important; /* درجة زرقاء أغمق عند التمرير */
+    border-color: #3b8cf0 !important;
+    color: #121212 !important;
+}
+
+/* زر تسجيل الدخول في الهيدر (ليطابق زر صفحة الدخول ويغمق عند الهوفر) */
+html.dark-mode .btn-login-nav {
+    background-color: #0075FF !important;
+    color: white !important;
+    border-color: #0075FF !important;
+}
+html.dark-mode .btn-login-nav:hover {
+    background-color: #001A75 !important;
+    color: white !important;
+    border-color: #001A75 !important;
+}
+
+/* حالة الأزرار المعطلة (غير القابلة للضغط) في الوضع الليلي */
+html.dark-mode .btn-save-custom:disabled {
+    background-color: var(--section-bg) !important;
+    color: var(--text-gray) !important;
+    border: 1px solid var(--border-color) !important;
+    cursor: not-allowed !important;
+}
+
+/* ============================================================== */
+/* --- تعديلات صفحة حسابي (My Account) في الوضع الليلي --- */
+/* ============================================================== */
+
+/* إظهار حدود البطاقات (المربعات الأربعة) */
+html.dark-mode .info-card {
+    border: 1px solid var(--border-color) !important;
+}
+
+/* الأشرطة الملونة للعناوين */
+html.dark-mode .header-blue {
+    background-color: rgba(88, 166, 255, 0.15) !important;
+}
+html.dark-mode .header-blue .card-title-text {
+    color: var(--dark-blue-replace) !important;
+}
+
+html.dark-mode .header-green {
+    background-color: rgba(102, 191, 38, 0.15) !important;
+}
+html.dark-mode .header-green .card-title-text {
+    color: #66BF26 !important;
+}
+
+/* الدوائر البيضاء خلف الأيقونات وأيقونة الرجوع */
+html.dark-mode .icon-circle {
+    background-color: var(--section-bg) !important;
+    box-shadow: none !important;
+}
+html.dark-mode .icon-circle img,
+html.dark-mode .back-icon img {
+    filter: brightness(0) invert(0.8) !important;
+}
+
+/* أزرار الإجراءات في صفحة حسابي */
+html.dark-mode .btn-delete-custom {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: rgba(220, 53, 69, 0.2) !important;
+    color: #ff6b6b !important;
+}
+html.dark-mode .btn-delete-custom:hover {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+}
+
+html.dark-mode .btn-change-pass {
+    background-color: var(--section-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+html.dark-mode .btn-change-pass:hover {
+    background-color: var(--border-color) !important;
+}
+
+html.dark-mode .btn-logout-all {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+    border-color: rgba(255, 193, 7, 0.2) !important;
+    color: #ffd166 !important;
+}
+html.dark-mode .btn-logout-all:hover {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+/* تصحيح ألوان النصوص الثابتة في حسابي */
+html.dark-mode .phone-wrapper input,
+html.dark-mode .phone-wrapper span {
+    color: var(--text-color) !important;
+}
+html.dark-mode .form-row-custom span[style*="#104496"] {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* جعل نص إخفاء الرقم أبيض في الوضع الليلي */
+html.dark-mode label[for="hidePhoneSwitch"],
+html.dark-mode .form-check-label {
+    color: #ffffff !important;
+}
+
+html.dark-mode .custom-input:disabled {
+    background-color: var(--section-bg) !important;
+    color: var(--text-gray) !important;
+    opacity: 0.6;
+}
+
+/* ============================================================== */
+/* --- تعديلات صفحة الإشعارات في الوضع الليلي --- */
+/* ============================================================== */
+
+html.dark-mode .notification-card {
+    background-color: var(--card-bg) !important;
+    border-top: 1px solid var(--border-color) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    border-left: 1px solid var(--border-color) !important;
+}
+html.dark-mode .notification-card.status-warning {
+    background-color: rgba(220, 53, 69, 0.1) !important; 
+}
+html.dark-mode .notif-text {
+    color: var(--text-color) !important;
+}
+html.dark-mode .notif-time {
+    color: var(--text-gray) !important;
+}
+
+/* ============================================================== */
+/* --- تعديلات صفحة الطلبات في الوضع الليلي --- */
+/* ============================================================== */
+
+/* توحيد كروت الطلبات لتكون مطابقة تماماً للإشعارات */
+html.dark-mode .request-card {
+    background-color: var(--card-bg) !important;
+    border-top: 1px solid var(--border-color) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    border-left: 1px solid var(--border-color) !important;
+}
+
+/* ألوان شارات حالات الطلب (Badges) */
+html.dark-mode .badge-pending { background-color: rgba(255, 193, 7, 0.1) !important; color: #ffc107 !important; }
+html.dark-mode .badge-accepted { background-color: rgba(40, 167, 69, 0.1) !important; color: #28a745 !important; }
+html.dark-mode .badge-rejected { background-color: rgba(220, 53, 69, 0.1) !important; color: #dc3545 !important; }
+html.dark-mode .badge-completed { background-color: rgba(88, 166, 255, 0.1) !important; color: var(--dark-blue-replace) !important; }
+
+/* ألوان أزرار الإجراءات في الطلبات لتناسب الخلفية الداكنة */
+html.dark-mode .btn-accept, html.dark-mode .btn-finish { background-color: rgba(40, 167, 69, 0.1) !important; color: #28a745 !important; }
+html.dark-mode .btn-accept:hover, html.dark-mode .btn-finish:hover { background-color: rgba(40, 167, 69, 0.25) !important; }
+html.dark-mode .btn-reject, html.dark-mode .btn-report { background-color: rgba(220, 53, 69, 0.1) !important; color: #dc3545 !important; }
+html.dark-mode .btn-reject:hover, html.dark-mode .btn-report:hover { background-color: rgba(220, 53, 69, 0.25) !important; }
+html.dark-mode .btn-cancel, html.dark-mode .btn-rate { background-color: rgba(255, 193, 7, 0.1) !important; color: #ffc107 !important; }
+html.dark-mode .btn-cancel:hover, html.dark-mode .btn-rate:hover { background-color: rgba(255, 193, 7, 0.25) !important; }
+html.dark-mode .btn-waiting, html.dark-mode .btn-rated { background-color: var(--section-bg) !important; color: var(--text-gray) !important; }
+html.dark-mode .btn-read-more { color: var(--dark-blue-replace) !important; }
+html.dark-mode .btn-whatsapp { background-color: rgba(37, 211, 102, 0.1) !important; color: #25D366 !important; }
+html.dark-mode .btn-whatsapp:hover { background-color: rgba(37, 211, 102, 0.25) !important; }
+html.dark-mode .btn-call { background-color: rgba(16, 68, 150, 0.2) !important; color: #58a6ff !important; }
+html.dark-mode .btn-call:hover { background-color: rgba(16, 68, 150, 0.4) !important; }
+html.dark-mode .btn-chat { background-color: rgba(139, 92, 246, 0.1) !important; color: #a78bfa !important; }
+html.dark-mode .btn-chat:hover { background-color: rgba(139, 92, 246, 0.25) !important; }
+
+/* زر الإكسيل في الوضع الليلي */
+html.dark-mode .btn-export-excel {
+    background-color: rgba(46, 125, 50, 0.1) !important;
+    color: #4caf50 !important;
+    border-color: rgba(46, 125, 50, 0.3) !important;
+}
+html.dark-mode .btn-export-excel:hover { background-color: rgba(46, 125, 50, 0.25) !important; color: #81c784 !important; }
+
+/* ============================================================== */
+/* --- تعديلات الصفحة الرئيسية (Home Page) في الوضع الليلي --- */
+/* ============================================================== */
+
+/* إزالة الخلفيات البيضاء الثابتة */
+
+html.dark-mode .hero-section,
+html.dark-mode .categories-section {
+    background-color: var(--bg-color) !important;
+}
+
+/* تعديل تلاشي المنحنى الأخضر ليكون شفافاً (يختفي في الأسود) بدلاً من الأبيض */
+html.dark-mode .hero-section::before {
+    background: radial-gradient(ellipse at left center, rgba(122, 189, 40, 0.25) 0%, transparent 65%) !important;
+}
+
+/* إخفاء الصورة النهارية وإظهار الصورة الليلية */
+html.dark-mode .light-hero-img {
+    display: none !important;
+}
+html.dark-mode .dark-hero-img {
+    display: inline-block !important;
+}
+
+/* دوائر التصنيفات والأيقونات */
+html.dark-mode .cat-icon {
+    background-color: var(--section-bg) !important;
+}
+
+html.dark-mode .cat-text {
+    color: var(--dark-blue-replace) !important;
+}
+
+/* تغميق الشريط الأزرق (دعوة الانضمام) ليكون مريحاً للعين في الظلام */
+html.dark-mode .cta-section {
+    background: linear-gradient(90deg, #001f5c 0%, #000c1f 100%) !important;
+}
+/* الحفاظ على النص باللون الأبيض فوق الشريط الأزرق الداكن */
+html.dark-mode .cta-section h3,
+html.dark-mode .cta-section p {
+    color: #ffffff !important;
+}
+html.dark-mode .cta-btn:hover {
+    color: #001f5c !important;
+}
+
+/* زر الصعود للأعلى في الوضع الليلي */
+html.dark-mode .scroll-top-btn {
+    background-color: var(--section-bg) !important;
+    color: var(--dark-blue-replace) !important;
+    border: 1px solid var(--border-color);
+}
+
+/* زر مشاركة الكرت في الوضع الليلي */
+html.dark-mode .share-card-btn {
+    background-color: rgba(88, 166, 255, 0.15) !important;
+    color: var(--dark-blue-replace) !important;
+}
+html.dark-mode .share-card-btn:hover {
+    background-color: var(--dark-blue-replace) !important;
+    color: #121212 !important;
+}
+
+/* شريط التمرير وتأثير النسخ في الوضع الليلي */
+html.dark-mode .scroll-progress-bar {
+    background: var(--dark-blue-replace) !important;
+}
+html.dark-mode .copy-clickable:hover {
+    background-color: rgba(88, 166, 255, 0.1) !important;
+    color: var(--dark-blue-replace) !important;
+}
+
+/* ============================================================== */
+/* --- نصوص شريط التقدم (الطلبات المتبقية) --- */
+/* ============================================================== */
+html.dark-mode .progress-text {
+    color: var(--text-gray) !important;
+}
+
+html.dark-mode .remaining-text {
+    color: var(--text-color) !important;
+}
+/* --- Wallet History Page Dark Mode --- */
+html.dark-mode .list-group-item {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+html.dark-mode .list-group-item h6 {
+    color: var(--text-color) !important;
+}
+
+html.dark-mode .empty-wallet-card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+html.dark-mode .wallet-filter-btn {
+    background-color: var(--section-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+html.dark-mode .dropdown-menu {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+html.dark-mode .dropdown-menu .dropdown-item {
+    color: var(--text-color) !important;
+}
+
+html.dark-mode .dropdown-menu .dropdown-item:hover, 
+html.dark-mode .dropdown-menu .dropdown-item:focus {
+    background-color: var(--section-bg) !important;
+}
+
+html.dark-mode h2, 
+html.dark-mode h5,
+html.dark-mode h3 {
+    color: var(--text-color) !important;
+}
+

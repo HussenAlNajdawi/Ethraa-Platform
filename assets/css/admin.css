@@ -1,0 +1,693 @@
+:root {
+    --main-bg-color: #021C7B; /* الأزرق الغامق (هوية الموقع) */
+    --main-text-color: #021C7B;
+    --second-text-color: #5a6a7a; /* لون نص أغمق قليلاً للوضوح */
+    --second-bg-color: #eef2f5;
+    --accent-green: #7abd28; /* الأخضر (هوية الموقع) */
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f4f6f9; /* خلفية رمادية فاتحة جداً */
+    padding-top: 0 !important; /* حل المشكلة الجذري: إلغاء المسافة الفراغية القادمة من الملف العام */
+    overflow-x: hidden;
+    
+    /* إخفاء شريط التمرير لمتصفحات فايرفوكس وإيدج */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* إخفاء شريط التمرير لمتصفحات كروم وسفاري */
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+
+.primary-text { color: var(--main-text-color) !important; }
+.second-text { color: var(--second-text-color); }
+.primary-bg { background-color: var(--main-bg-color); }
+.secondary-bg { background-color: rgba(2, 28, 123, 0.1); } /* خلفية زرقاء فاتحة للأيقونات */
+.rounded-full { border-radius: 50%; }
+
+/* --- توحيد ألوان كافة العناوين في الإدارة للون الكحلي (#021C7B) في الوضع النهاري --- */
+html:not(.dark-mode) h1:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) h2:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) h3:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) h4:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) h5:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) h6:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) .text-primary,
+html:not(.dark-mode) .primary-text,
+html:not(.dark-mode) .navbar h2,
+html:not(.dark-mode) .card h4:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) .card h5:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) .modal-title:not(.text-danger):not(.text-warning):not(.text-success),
+html:not(.dark-mode) .page-title {
+    color: #021C7B !important;
+}
+
+#wrapper {
+    overflow-x: hidden;
+    display: block !important; /* إلغاء تأثير Flexbox لضمان عمل الهوامش مع السايدبار الثابت */
+}
+
+/* --- التصميم الجديد للقائمة الجانبية --- */
+#sidebar-wrapper {
+    background: #ffffff; /* ✅ جعل الخلفية بيضاء */
+    height: 100vh; /* ارتفاع ثابت لملء الشاشة */
+    width: 280px;
+    transition: right 0.25s ease-out;
+    border-right: none;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05); /* ظل ناعم للسايد بار */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0;
+    top: 0;
+    overflow-y: auto; /* سكرول داخلي للقائمة */
+    
+    /* إخفاء شريط التمرير للسايدبار */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    /* ✅ تثبيت السايدبار (Fixed) */
+    position: fixed;
+    right: -280px; /* مخفية افتراضياً (للموبايل) */
+}
+
+/* إخفاء شريط التمرير لمتصفحات كروم داخل السايدبار */
+#sidebar-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* تنسيق منطقة اللوجو العلوية */
+.sidebar-logo {
+    display: flex; /* استخدام فليكس لضمان التوسط */
+    justify-content: center;
+    align-items: center;
+    height: 90px; /* ارتفاع ثابت لضمان المحاذاة */
+    padding: 0; /* إزالة المسافات العلوية تماماً لتوسيط مثالي */
+    margin: 0;
+}
+
+/* تنسيق اللوجو */
+.sidebar-logo img {
+    width: 160px; /* تصغير طفيف ليتناسق مع حجم العنوان */
+    height: auto;
+    max-height: 55px; /* منع تمدد الصورة وتخريب المحاذاة */
+    object-fit: contain;
+}
+
+/* تنسيق كتلة المحتوى (الجزء الأزرق) */
+.sidebar-content {
+    background-color: transparent; /* إزالة الخلفية الزرقاء */
+    flex-grow: 1;
+    border-top-left-radius: 0;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar-wrapper .list-group {
+    background-color: transparent;
+    margin: 0;
+    border-radius: 0;
+    padding: 15px;
+    box-shadow: none;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* ملء المساحة المتبقية */
+}
+
+/* ✅ إعادة المربع الأزرق الفاتح للمحتوى */
+#page-content-wrapper {
+    padding: 0 30px 30px 30px; /* إزالة البادنج العلوي لمساواة النافبار مع اللوجو بدقة */
+    width: auto; /* السماح للمحتوى بأخذ العرض المتاح فقط */
+    min-height: 100vh; /* ضمان ملء الشاشة */
+    transition: margin-right 0.25s ease-out;
+}
+
+/* إصلاح تداخل التنسيقات مع النافبار العام وإرجاع عنوان الإدارة لمكانه الطبيعي */
+#page-content-wrapper .navbar {
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important; /* إزالة المارجن السلبي */
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    height: 90px !important; /* مساواة الارتفاع مع اللوجو تماماً */
+    padding: 0 1.5rem !important; /* توسيط مع اللوجو */
+    background-color: transparent !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important; /* إرجاع المحاذاة بعد إزالة الفراغ الوهمي */
+}
+
+/* الضبط البصري الدقيق لعنوان الصفحة */
+#page-content-wrapper .navbar .d-flex {
+    transform: none; /* إزالة الرفع السابق */
+}
+
+/* --- منطق إظهار وإخفاء القائمة --- */
+#wrapper.toggled #sidebar-wrapper {
+    right: 0;
+}
+
+@media (min-width: 992px) {
+    #sidebar-wrapper {
+        right: 0;
+    }
+    #page-content-wrapper {
+        margin-right: 280px;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        right: -280px;
+    }
+    #wrapper.toggled #page-content-wrapper {
+        margin-right: 0;
+    }
+}
+
+#menu-toggle { cursor: pointer; color: var(--main-text-color); }
+
+/* --- تنسيق عناصر القائمة --- */
+.list-group-item { 
+    border: none; 
+    padding: 12px 25px; 
+    margin: 2px 15px;
+    border-radius: 12px !important; /* !important لإجبار الحواف الدائرية على العنصر الأول */
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--main-text-color); /* لون أزرق غامق */
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* المسافة بين الأيقونة والنص */
+}
+
+.list-group-item.active {
+    background-color: var(--main-bg-color) !important; /* خلفية زرقاء للعنصر النشط */
+    color: #ffffff !important;
+    font-weight: 600;
+    border-right: none;
+    box-shadow: 0 4px 12px rgba(2, 28, 123, 0.2);
+}
+
+.list-group-item:hover:not(.active) {
+    background-color: rgba(2, 28, 123, 0.05); /* خلفية فاتحة جداً عند الهوفر */
+    color: var(--main-text-color) !important;
+    transform: translateX(5px); /* حركة بسيطة لليمين */
+}
+
+/* --- تلوين الأيقونات (SVG) باستخدام الفلاتر --- */
+.list-group-item img {
+    transition: filter 0.3s ease;
+    /* فلتر يحول أي لون إلى الأزرق الغامق (#021C7B) */
+    filter: brightness(0) saturate(100%) invert(8%) sepia(94%) saturate(6374%) hue-rotate(233deg) brightness(93%) contrast(113%);
+}
+
+.list-group-item.active img {
+    /* فلتر يحول اللون إلى الأبيض */
+    filter: brightness(0) invert(1);
+}
+
+/* زر تسجيل الخروج */
+.list-group-item.text-danger {
+    color: #dc3545 !important;
+    background-color: transparent;
+    margin-top: auto; /* الإبقاء على دفعه للأسفل */
+    /* إزالة التنسيقات الخاصة ليعود مثل باقي الأزرار */
+}
+
+/* تصحيح لون الأيقونة لزر الخروج (أحمر) */
+.list-group-item.text-danger img {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(45%) saturate(2686%) hue-rotate(336deg) brightness(93%) contrast(93%);
+}
+
+.list-group-item.text-danger:hover {
+    background-color: rgba(220, 53, 69, 0.05);
+    color: #dc3545 !important;
+    transform: translateX(5px);
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.1);
+}
+
+.list-group-item.text-danger:hover img {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(45%) saturate(2686%) hue-rotate(336deg) brightness(93%) contrast(93%);
+}
+
+/* تنسيق البطاقات على الخلفية الجديدة */
+.p-3.bg-white.shadow-sm {
+    border-radius: 20px !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05) !important;
+    border: 1px solid #e9ecef;
+    transition: transform 0.3s ease;
+}
+
+.p-3.bg-white.shadow-sm:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07) !important;
+}
+
+/* تنسيق الجداول */
+.table-responsive {
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #e9ecef;
+    max-height: 75vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* تمرير سلس جداً للجداول على أجهزة الآيفون والآيباد (iOS) */
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f8f9fa !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-bottom: 2px solid #f0f0f0;
+    color: var(--main-text-color);
+    font-weight: 700;
+    padding: 15px;
+    text-align: center;
+}
+
+.table tbody td {
+    padding: 15px;
+    vertical-align: middle;
+    color: #555;
+    text-align: center;
+}
+
+/* أيقونات البطاقات */
+.border.rounded-full {
+    border: none !important;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ألوان خلفيات الأيقونات */
+.text-danger.border.rounded-full { background-color: rgba(220, 53, 69, 0.1) !important; }
+.text-warning.border.rounded-full { background-color: rgba(255, 193, 7, 0.1) !important; }
+.text-success.border.rounded-full { background-color: rgba(25, 135, 84, 0.1) !important; }
+.primary-text.border.rounded-full { background-color: rgba(2, 28, 123, 0.1) !important; }
+
+.fs-2 { font-weight: 800; color: var(--main-text-color); }
+
+/* استجابة الشاشات الصغيرة (أقل من 992px) */
+@media (max-width: 991.98px) {
+    #page-content-wrapper {
+        min-width: auto;
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+}
+
+/* --- زر تبديل الحالة الجديد (مع أيقونات خارجية) --- */
+.status-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: transparent;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.status-icon {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+}
+
+.status-btn {
+    display: block;
+    width: 50px;
+    height: 26px;
+    border-radius: 50px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    border: none;
+}
+
+/* الدائرة البيضاء داخل الزر */
+.status-btn::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.status-btn.active-btn {
+    background-color: #66BF26; /* خلفية خضراء */
+}
+.status-btn.active-btn::after {
+    right: 3px; /* الدائرة جهة اليمين (جهة الأيقونة النشطة) */
+}
+
+.status-btn.active-btn:hover {
+    background-color: #66BF26;
+    color: white;
+}
+
+.status-btn.blocked-btn {
+    background-color: #E01010; /* خلفية حمراء */
+}
+.status-btn.blocked-btn::after {
+    right: 27px; /* الدائرة جهة اليسار (جهة أيقونة الحظر) */
+}
+
+.status-btn.blocked-btn:hover {
+    background-color: #E01010;
+    color: white;
+}
+
+/* --- تصميم حالة المستخدم والبنود العصرية (Status Pill) --- */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    height: 34px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    min-width: 95px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+    text-decoration: none !important;
+}
+
+button.status-pill {
+    border-style: solid;
+    outline: none;
+}
+button.status-pill:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 10px; /* مسافة بين النقطة والنص */
+}
+
+.status-pill.active {
+    background-color: rgba(102, 191, 38, 0.1); /* أخضر شفاف */
+    color: #66BF26;
+    border: 1px solid rgba(102, 191, 38, 0.2);
+}
+.status-pill.active .status-dot { background-color: #66BF26; box-shadow: 0 0 8px rgba(102, 191, 38, 0.6); }
+
+.status-pill.blocked {
+    background-color: rgba(224, 16, 16, 0.1); /* أحمر شفاف */
+    color: #E01010;
+    border: 1px solid rgba(224, 16, 16, 0.2);
+}
+.status-pill.blocked .status-dot { background-color: #E01010; box-shadow: 0 0 8px rgba(224, 16, 16, 0.6); }
+
+/* تصنيفات الخدمات */
+.status-pill.main {
+    background-color: #e3f2fd; /* أزرق فاتح جداً */
+    color: #0d6efd; /* أزرق واضح */
+    border: 1px solid #bbdefb;
+}
+
+.status-pill.sub {
+    background-color: rgba(102, 191, 38, 0.1); /* أخضر شفاف */
+    color: #66BF26;
+    border: 1px solid rgba(102, 191, 38, 0.2);
+}
+
+.status-pill.pending {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #856404;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.status-pill.info {
+    background-color: rgba(13, 202, 240, 0.1);
+    color: #055160;
+    border: 1px solid rgba(13, 202, 240, 0.2);
+}
+
+.status-pill.secondary {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #495057;
+    border: 1px solid rgba(108, 117, 125, 0.2);
+}
+
+/* --- خطوط الشجرة (Tree Lines) --- */
+.tree-line-vertical {
+    position: absolute;
+    right: 34px; /* تحريك الخط لليمين ليكون تحت السهم */
+    left: auto;
+    top: 0;
+    width: 2px;
+    background-color: #dee2e6;
+    height: 100%;
+}
+
+.tree-line-vertical.last {
+    height: 50%; /* يتوقف عند المنتصف للعنصر الأخير */
+}
+
+.tree-line-horizontal {
+    position: absolute;
+    right: 34px;
+    left: auto;
+    top: 50%;
+    width: 15px; /* تقليل الطول ليتناسب مع المسافة الجديدة */
+    height: 2px;
+    background-color: #dee2e6;
+}
+
+/* زر طي الخدمات الفرعية */
+.toggle-subs i {
+    transition: transform 0.3s ease;
+    color: var(--main-text-color);
+}
+
+/* --- شريط البحث في الأدمن --- */
+.admin-search-box {
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    width: 450px;
+    max-width: 100%;
+    height: 45px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+}
+
+.admin-search-box:focus-within {
+    border-color: var(--main-bg-color);
+    box-shadow: 0 4px 10px rgba(2, 28, 123, 0.1);
+}
+
+.admin-search-box input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    padding: 0 40px 0 45px; /* زيادة المسافة اليمنى لزر المسح */
+    font-size: 0.95rem;
+    color: #333;
+    border-radius: 12px;
+}
+
+.admin-search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    opacity: 0.5;
+}
+
+/* زر مسح البحث */
+.clear-search-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #999;
+    line-height: 1;
+}
+.clear-search-btn:hover { color: #dc3545; }
+
+/* --- شارات الأعداد العصرية (Count Badges) --- */
+.count-badge {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #555;
+    font-family: 'Segoe UI', sans-serif; /* خط أرقام نظيف */
+}
+
+.count-badge.main-count {
+    color: var(--main-text-color);
+}
+
+/* --- فلتر الفترة الزمنية العصري --- */
+.filter-toggle {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 4px;
+    display: inline-flex;
+    border: 1px solid #e9ecef;
+}
+
+.filter-btn {
+    padding: 6px 18px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover { color: var(--main-text-color); }
+
+.filter-btn.active {
+    background-color: #ffffff;
+    color: var(--main-text-color);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    font-weight: 700;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- أنيميشن ظهور الرسم البياني --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+    from { transform: scale(0.95); }
+    to { transform: scale(1); }
+}
+
+.chart-animate {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- تنسيق Select2 (قائمة البحث) --- */
+.select2-container .select2-selection--single {
+    height: 38px !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 0.375rem !important;
+    padding: 5px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 24px !important;
+    color: #212529 !important;
+    padding-right: 0 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px !important;
+    left: 1px !important;
+    right: auto !important;
+}
+
+/* أزرار الإجراءات المخصصة في الجداول (مطابقة لشكل status-pill شبه الشفاف وشبه الدائري) */
+.btn-custom-accept {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(102, 191, 38, 0.1) !important;
+    border: 1px solid rgba(102, 191, 38, 0.2) !important;
+    color: #66BF26 !important;
+    border-radius: 50px !important;
+    padding: 6px 16px !important;
+    height: 34px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    text-align: center;
+    box-shadow: none !important;
+    transition: all 0.25s ease;
+    text-decoration: none !important;
+}
+.btn-custom-accept:hover {
+    background-color: rgba(102, 191, 38, 0.2) !important;
+    border-color: rgba(102, 191, 38, 0.35) !important;
+    color: #5aa822 !important;
+    transform: translateY(-1px);
+}
+
+.btn-custom-reject {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(224, 16, 16, 0.1) !important;
+    border: 1px solid rgba(224, 16, 16, 0.2) !important;
+    color: #E01010 !important;
+    border-radius: 50px !important;
+    padding: 6px 16px !important;
+    height: 34px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    text-align: center;
+    box-shadow: none !important;
+    transition: all 0.25s ease;
+    text-decoration: none !important;
+}
+.btn-custom-reject:hover {
+    background-color: rgba(224, 16, 16, 0.2) !important;
+    border-color: rgba(224, 16, 16, 0.35) !important;
+    color: #c20e0e !important;
+    transform: translateY(-1px);
+}
+
+/* الزر الأزرق الرئيسي للوحة التحكم (النهاري والليلي) */
+.btn-admin-primary {
+    background-color: #021C7B;
+    border-color: #021C7B;
+    color: #ffffff;
+    transition: all 0.25s ease;
+}
+.btn-admin-primary:hover {
+    background-color: #011352;
+    border-color: #011352;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* دائرة أيقونة الدرع في بطاقة RBAC */
+.admin-shield-icon-circle {
+    background-color: #021C7B !important;
+    color: #ffffff !important;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}

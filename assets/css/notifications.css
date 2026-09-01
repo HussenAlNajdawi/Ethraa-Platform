@@ -1,0 +1,88 @@
+/* --- تنسيقات صفحة الإشعارات --- */
+.notification-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+    border-right: 5px solid transparent; /* الشريط الملون الجانبي */
+}
+
+.notification-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.notif-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+
+.notif-content { flex-grow: 1; }
+.notif-text { font-size: 1.1rem; color: #333; line-height: 1.6; }
+.notif-time { font-size: 0.85rem; color: #888; margin-top: 5px; }
+
+/* ألوان الحالات */
+.status-pending { border-right-color: #f39c12; }
+.icon-pending { background-color: #fff3cd; color: #856404; }
+
+.status-accepted { border-right-color: #27ae60; }
+.icon-accepted { background-color: #d4edda; color: #155724; }
+
+.status-rejected { border-right-color: #c0392b; }
+.icon-rejected { background-color: #f8d7da; color: #721c24; }
+
+.status-completed { border-right-color: #104496; }
+.icon-completed { background-color: #cce5ff; color: #004085; }
+
+/* الإنذار (Warning) */
+.status-warning { border-right-color: #dc3545; background-color: #fff5f5; }
+.icon-warning { background-color: #f8d7da; color: #dc3545; }
+
+/* معلومات (Info) */
+.status-info { border-right-color: #17a2b8; }
+.icon-info { background-color: #d1ecf1; color: #0c5460; }
+
+/* تنسيق Checkbox */
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px !important;
+    cursor: pointer;
+    border: 2px solid #ccc;
+}
+.custom-checkbox:checked {
+    background-color: #104496;
+    border-color: #104496;
+}
+.content-wrapper {
+    flex-grow: 1;
+}
+
+/* ============================================================== */
+/* --- استجابة الشاشات الصغيرة (الموبايل) --- */
+/* ============================================================== */
+@media (max-width: 768px) {
+    .notification-card {
+        padding: 15px;
+        align-items: flex-start;
+    }
+    .notif-icon {
+        width: 40px;
+        height: 40px;
+        margin-left: 10px;
+    }
+    .notif-text {
+        font-size: 0.95rem;
+    }
+}

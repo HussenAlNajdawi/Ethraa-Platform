@@ -1,0 +1,588 @@
+/* ================= إصلاح السكرول ================= */
+html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+    padding-top: 0 !important;
+    /* إخفاء شريط التمرير لمتصفحات فايرفوكس وإيدج */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* إخفاء شريط التمرير لمتصفحات كروم وسفاري */
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+
+/* إزاحة المحتوى للأسفل لتفادي النافبار */
+.container {
+    margin-top: 120px !important;
+}
+
+/* ================= الشريط العلوي (بحث وفلتر) - لم يتغير ================= */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+    max-width: 100%; /* السماح للحاوية بالتمدد لتسع الفلاتر */
+}
+
+/* صندوق البحث */
+.custom-search-box {
+    position: relative;
+    background-color: #f3f4f6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    width: 450px;
+    flex-shrink: 0; /* منع شريط البحث من الانكماش */
+    height: 50px;
+    transition: width 0.3s ease;
+}
+
+.custom-search-box input {
+    border: none; background: transparent;
+    width: 100%; height: 100%;
+    outline: none;
+    padding-right: 15px; padding-left: 45px;
+    font-size: 0.95rem; color: #333;
+}
+
+.search-icon-img {
+    position: absolute; left: 15px; top: 50%;
+    transform: translateY(-50%);
+    width: 22px; opacity: 0.5;
+}
+
+/* زر الفلتر */
+.filter-toggle-btn {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+}
+
+.filter-toggle-btn:hover {
+    transform: scale(1.1);
+    background-color: transparent;
+}
+
+.filter-toggle-btn img {
+    width: 28px; height: 28px;
+}
+
+/* القوائم المنسدلة */
+.filter-options-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.select-wrapper {
+    position: relative;
+    min-width: 160px;
+}
+
+.styled-select {
+    appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem; color: #333; font-weight: 600;
+    width: 100%; padding: 10px 15px; padding-left: 35px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23104496' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 16px;
+}
+
+.styled-select:hover {
+    border-color: #104496;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(16, 68, 150, 0.1);
+}
+
+.styled-select:focus {
+    outline: none;
+    border-color: #104496;
+    box-shadow: 0 0 0 3px rgba(16, 68, 150, 0.1);
+}
+
+/* زر الرجوع */
+.back-btn { margin-right: auto; }
+.back-btn img { width: 35px; height: 35px; transition: transform 0.2s; }
+.back-btn img:hover { transform: translateX(-5px); }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* ============ فلتر متاح الآن (التصميم الجديد) ============ */
+.available-now-box {
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    padding: 10px 15px; /* تعديل الحشوة لتطابق القوائم المجاورة */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+    min-width: 160px; /* تعديل العرض ليطابق القوائم المجاورة */
+    justify-content: space-between;
+    flex-shrink: 0; /* منع الصندوق من الانكماش عند ضيق المساحة */
+}
+
+.available-now-box:hover {
+    border-color: #104496;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(16, 68, 150, 0.1);
+}
+
+.available-now-box.active {
+    background-color: #e8f5e9; /* خلفية خضراء فاتحة عند التفعيل */
+    border-color: #28a745;
+}
+
+.available-now-box span {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #333;
+    user-select: none;
+    white-space: nowrap; /* إجبار النص على البقاء في سطر واحد */
+}
+
+.available-now-box.active span {
+    color: #2e7d32;
+}
+
+/* إزالة حشوة البوتستراب من حاوية السويتش لضمان المحاذاة */
+.available-now-box .form-check {
+    padding: 0 !important;
+    min-height: auto;
+}
+
+/* تعديل حجم السويتش */
+.available-now-box .form-check-input {
+    width: 2.2em;
+    height: 1.2em;
+    cursor: pointer;
+    margin: 0 !important; /* إلغاء جميع هوامش بوتستراب */
+    float: none !important;
+}
+
+.available-now-box .form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+/* ================= كروت الخدمات (نظام القلب FLIP CARD) ================= */
+
+/* الحاوية الرئيسية للكرت */
+.service-card {
+    background-color: transparent;
+    width: 300px;
+    height: 330px; /* ✅ تم التقصير من 380px إلى 330px */
+    perspective: 1000px; 
+    margin: 10px; /* ✅ تقليل الهوامش */
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    z-index: 5;
+}
+
+/* الجسم الداخلي المتحرك */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+}
+
+.service-card:hover .card-inner {
+    box-shadow: 0 15px 35px rgba(16, 68, 150, 0.15);
+}
+
+/* كلاس الدوران */
+.service-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* الخصائص المشتركة للوجهين */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 15px; /* ✅ تقليل الحشو الداخلي من 20px إلى 15px لتقريب العناصر */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    border: 1px solid #eeeeee;
+    transition: border-color 0.3s ease;
+}
+
+/* ============ الوجه الأمامي ============ */
+.card-front {
+    background-color: white;
+    color: black;
+}
+
+.provider-name { 
+    color: #104496; 
+    font-weight: 700; 
+    font-size: 1.15rem; /* ✅ تصغير الخط قليلاً */
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+/* زر المشاركة الجديد (دائري في الزاوية) */
+.share-card-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #f0f4f8;
+    color: #104496;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: 0.9rem;
+}
+.share-card-btn:hover {
+    background-color: #104496;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* نجوم التقييم */
+.rating-stars {
+    color: #ffc107; /* اللون الأصفر الذهبي */
+    font-size: 0.85rem;
+}
+
+.card-divider { 
+    border: none;
+    height: 3px; /* زيادة السماكة قليلاً */
+    background-color: #104496;
+    width: 45px; /* زيادة العرض ليكون أجمل */
+    margin: 10px auto 15px auto; /* زيادة المسافة عن الاسم */
+    border-radius: 50px; /* حواف دائرية ناعمة */
+    opacity: 0.8; 
+}
+
+/* ============ تصميم الوقت العصري (المعدل) ============ */
+/* ============ تصميم الوقت العصري (معدل للتمركز) ============ */
+.time-box {
+    background-color: #f0f4f8;
+    color: #495057;
+    border-radius: 50px;
+    padding: 6px 15px; /* حشوة متوازنة */
+    
+    font-size: 0.85rem;
+    font-weight: 600;
+    
+    /* خصائص التمركز الحاسمة */
+    display: flex;            /* استخدام flex لضمان التحكم الكامل */
+    justify-content: center;  /* توسيط المحتوى داخلياً */
+    align-items: center;
+    width: fit-content;       /* جعل عرض البوكس على قد الكلام بالضبط */
+    margin: 10px auto;        /* margin-left: auto و margin-right: auto يضعانه في المنتصف */
+    
+    gap: 5px;                 /* مسافة صغيرة بين الكلمات */
+    border: 1px solid #e1e8ed;
+    transition: all 0.3s ease;
+    white-space: nowrap;      /* منع نزول النص لسطر جديد */
+}
+
+.time-box:hover {
+    background-color: #e6f0ff; 
+    border-color: #104496;     
+    color: #104496;           
+    transform: translateY(-1px);
+}
+
+.time-box i {
+    color: #104496;
+    font-size: 1rem;
+}
+
+/* ============ معلومات التواصل ============ */
+.contact-info {
+    text-align: center;
+    background: #fff;
+    padding: 8px 12px; /* ✅ تقليل الحشو */
+    border-radius: 10px;
+    border: 1px solid #e1e1e1;
+    margin: 5px 0 10px 0; /* ✅ تقليل الهوامش لتقريبها */
+}
+
+.contact-info p {
+    font-size: 0.85rem;
+    margin: 3px 0; /* ✅ تقليل المسافة بين الأسطر */
+    color: #555;
+}
+
+.contact-info i {
+    color: #104496;
+    margin-left: 8px;
+    width: 15px;
+}
+
+/* تأثير النقر السريع للنسخ */
+.copy-clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+.copy-clickable:hover {
+    background-color: rgba(16, 68, 150, 0.06);
+    color: #104496;
+}
+
+/* ============ الوجه الخلفي (الحجز) ============ */
+.card-back {
+    background-color: #ffffff;
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.card-back h5 {
+    color: #104496;
+    margin-bottom: 10px; /* ✅ تقليل المسافة */
+}
+
+.card-back textarea {
+    width: 100%;
+    height: 150px; /* ✅ تقليل ارتفاع النص ليتناسب مع البطاقة القصيرة */
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    resize: none;
+    font-family: inherit;
+    background-color: #f9f9f9;
+}
+
+.card-back textarea:focus {
+    outline: none;
+    border-color: #104496;
+}
+
+/* ============ الأزرار ============ */
+.btn-book { 
+    background-color: #104496; 
+    color: white !important; 
+    border-radius: 10px; 
+    padding: 10px 0; /* ✅ تقليل ارتفاع الزر */
+    font-weight: 600; 
+    border: none; 
+    width: 100%; 
+    cursor: pointer;
+    transition: background 0.3s; 
+    margin-top: auto;
+}
+
+.btn-book:hover { 
+    background-color: #0d3675; 
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px; /* ✅ زر أصغر قليلاً */
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+/* توحيد شكل الزر المعطل مع الأزرار الأخرى */
+.btn-secondary:disabled, .btn-secondary.disabled {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    border-color: #dee2e6 !important;
+    opacity: 1 !important; /* الأهم: إزالة الشفافية */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.price-badge .badge { 
+    background-color: #28a745 !important; 
+    font-weight: 500; 
+    font-size: 0.85rem; 
+    padding: 8px 12px; 
+    border-radius: 20px;
+}
+
+/* ============ أزرار الوجه الخلفي (تأكيد وإلغاء) ============ */
+
+/* 1. زر تأكيد الحجز (الأخضر) */
+.card-back .btn-success {
+    background-color: #104496; /* جعلته أزرق مثل هوية الموقع، أو ضعه #28a745 للأخضر */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 0;      /* ارتفاع مناسب */
+    font-weight: 500;    /* خط عريض */
+    width: 100%;
+    margin-bottom: 8px;  /* مسافة بينه وبين زر الإلغاء */
+    transition: all 0.3s ease;
+}
+
+.card-back .btn-success:hover {
+    background-color: #0d3675; /* لون أغمق عند التحويم */
+    transform: translateY(-1px); /* حركة بسيطة للأعلى */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 2. زر الإلغاء (الرمادي) */
+.card-back .btn-secondary {
+    background-color: #f1f3f5; /* لون خلفية فاتح جداً (بدل الرمادي الغامق ليكون أهدأ) */
+    color: #495057;            /* لون النص رمادي */
+    border: 1px solid #dee2e6; /* حدود خفيفة */
+    border-radius: 10px;
+    padding: 8px 0;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.card-back .btn-secondary:hover {
+    background-color: #ffe3e3; /* يتحول لأحمر فاتح جداً عند التحويم */
+    color: #e03131;            /* النص يصبح أحمر */
+    border-color: #ffa8a8;
+}
+
+/* ============ زر التنبيه المفعل (Hover Effect) ============ */
+.btn-subscribed {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    border: 1px solid #dee2e6 !important;
+    transition: all 0.3s ease;
+}
+
+.btn-subscribed:hover {
+    background-color: #ffe3e3 !important; /* خلفية حمراء فاتحة */
+    color: #dc3545 !important; /* نص أحمر */
+    border-color: #dc3545 !important;
+}
+
+.btn-subscribed:hover .default-txt { display: none; }
+.btn-subscribed:hover .hover-txt { display: inline-block !important; }
+
+/* ============================================================== */
+/* --- استجابة الشاشات المختلفة (Responsive Design) لصفحة الخدمات --- */
+/* ============================================================== */
+
+/* أجهزة الايباد والتابلت */
+@media (max-width: 991.98px) {
+    .container {
+        margin-top: 100px !important;
+    }
+    .custom-search-box {
+        width: 100%;
+        max-width: 350px;
+    }
+    .service-card {
+        width: 320px;
+        margin: 15px auto;
+    }
+}
+
+/* الشاشات الصغيرة (الموبايل) */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    .search-filter-container {
+        flex-direction: row; /* إبقاء عناصر البحث والفلتر في نفس السطر */
+        flex-wrap: wrap; /* السماح بالتفاف خيارات الفلتر إذا تم فتحها */
+        width: 100%;
+        gap: 10px; /* مسافة بسيطة بينهما */
+    }
+    .custom-search-box {
+        width: auto;
+        flex-grow: 1; /* جعل شريط البحث يتمدد لملأ المساحة المتبقية */
+    }
+    .filter-toggle-btn {
+        width: 50px; /* تحديد عرض ثابت لزر الفلتر ليكون مربعاً أو أيقونة بجانب البحث */
+        height: 50px;
+        background-color: #f3f4f6;
+        border-radius: 12px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .filter-options-box {
+        flex-direction: column;
+        width: 100%;
+    }
+    .select-wrapper, .available-now-box {
+        width: 100%;
+    }
+    .service-card {
+        width: 100%;
+        max-width: 350px;
+        margin: 10px auto;
+    }
+    
+    .card-front, .card-back {
+        padding: 12px;
+    }
+    
+    .time-box {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .service-card {
+        max-width: 100%;
+    }
+    .provider-name {
+        font-size: 1.05rem;
+    }
+    .btn-book, .card-back .btn-success, .card-back .btn-secondary {
+        font-size: 0.9rem;
+        padding: 8px 0;
+    }
+}

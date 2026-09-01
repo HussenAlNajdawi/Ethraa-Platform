@@ -1,0 +1,349 @@
+/* assets/css/home.css */
+
+/* --- قسم الواجهة Hero Section --- */
+.hero-section {
+    position: relative;
+    padding: 40px 0;
+    background-color: #fff;
+    min-height: 600px;
+    
+    /* إعدادات المحاذاة */
+    display: flex;
+    align-items: center; /* توسيط عمودي */
+    
+    /* ✅ التعديل الجوهري: إجبار المحتوى على التوسط أفقياً */
+    justify-content: center; 
+    
+    overflow: hidden; 
+}
+
+/* باقي الكود كما هو تماماً ... */
+
+/* ✅ المنحنى الأخضر على اليسار */
+/* assets/css/home.css */
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    
+    /* الموقع: يسار ومتوسط */
+    top: 50%;          /* نبدأ من المنتصف */
+    transform: translateY(-50%); /* لضمان التوسط العمودي الدقيق */
+    left: 0; 
+    
+    width: 25%;        /* عرض المنحنى */
+    height: 120%;      /* ✅ جعلناه أطول من الشاشة ليختفي الخط العلوي والسفلي خارج الرؤية */
+    
+    /* الشكل */
+    border-radius: 0 50% 50% 0; 
+    
+    /* ✅ التدرج اللوني: بيضاوي (ellipse) ليتناسب مع الطول، ونسبة 60% ليختفي قبل الحواف */
+    background: radial-gradient(ellipse at left center, rgba(122, 189, 40, 0.4) 0%, transparent 65%);
+    
+    /* ✅ السحر: تمويه قوي لإخفاء أي خطوط حادة */
+    filter: blur(10px);
+    
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-text-box {
+    position: relative;
+    z-index: 2;
+    padding-left: 20px;
+}
+
+.hero-title {
+    color: var(--dark-blue);
+    font-weight: 800;
+    font-size: 2.8rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.highlight-green {
+    color: var(--green);
+}
+
+.hero-subtitle {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 500px;
+}
+
+/* --- قسم المجالات Categories --- */
+.categories-section {
+    padding: 60px 0;
+    text-align: center;
+    background-color: #fff;
+}
+
+.section-title {
+    color: var(--dark-blue);
+    font-weight: bold;
+    font-size: 1.6rem;
+    margin-bottom: 50px;
+}
+
+.category-item {
+    display: inline-block;
+    margin: 15px;
+    text-align: center;
+    width: 100px;
+    transition: 0.3s;
+}
+
+.cat-icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--gray-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    transition: 0.3s;
+}
+
+.cat-icon img {
+    width: 40px;
+    height: 40px;
+    transition: 0.3s;
+}
+
+.category-item:hover .cat-icon {
+    background-color: var(--dark-blue);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.category-item:hover .cat-icon img {
+    filter: brightness(0) invert(1);
+}
+
+.cat-text {
+    font-weight: bold;
+    color: var(--dark-blue);
+}
+
+/* --- الشريط الأزرق CTA مع تدرج لوني متحرك مطابق للشريط الأخضر --- */
+.cta-section {
+    background: linear-gradient(-45deg, #0044cc, #021C7B, #002a5c, #011352);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: white;
+    padding: 70px 0;
+    text-align: center;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.cta-section h3 {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.cta-btn {
+    display: inline-block;
+    border: 2px solid white;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 50px;
+    font-weight: bold;
+    margin-top: 25px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    background-color: white;
+    color: var(--dark-blue);
+}
+
+/* ============================================================== */
+/* --- استجابة الشاشات المختلفة (Responsive Design) --- */
+/* ============================================================== */
+
+/* أجهزة الايباد والتابلت */
+@media (max-width: 991.98px) {
+    .hero-section {
+        min-height: auto;
+        padding: 60px 0 40px;
+    }
+    
+    .hero-title {
+        font-size: 2.2rem;
+        text-align: center;
+    }
+    
+    .hero-subtitle {
+        text-align: center;
+        margin: 0 auto 30px;
+    }
+    
+    .hero-text-box {
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-section::before {
+        display: none;
+    }
+    
+    .light-hero-img, .dark-hero-img {
+        max-height: 350px !important;
+        margin-top: 30px;
+    }
+}
+
+/* الهواتف الذكية الكبيرة والصغيرة */
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding: 40px 0 20px;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .light-hero-img, .dark-hero-img {
+        max-height: 250px !important;
+        margin-top: 20px;
+    }
+    
+    .cta-section {
+        padding: 40px 15px;
+    }
+    
+    .cta-section h3 {
+        font-size: 1.3rem;
+        line-height: 1.5;
+    }
+    
+    .cta-section p {
+        font-size: 1rem !important;
+    }
+    
+    .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 30px;
+    }
+    
+    .category-item {
+        margin: 8px;
+        width: 85px;
+    }
+    
+    .cat-icon {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 10px;
+    }
+    
+    .cat-icon img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .cat-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    /* شاشات الهواتف الصغيرة جدا */
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .light-hero-img, .dark-hero-img {
+        max-height: 200px !important;
+    }
+    
+    .category-item {
+        width: 75px;
+        margin: 5px;
+    }
+    
+    .cat-icon {
+        width: 55px;
+        height: 55px;
+    }
+}
+
+/* ============================================================== */
+/* --- تأثيرات الظهور التدريجي عند التمرير (Scroll Reveal Animations) --- */
+/* ============================================================== */
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-from-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-from-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* عند دخول العنصر لمجال رؤية الشاشة */
+.reveal-on-scroll.is-visible,
+.reveal-from-right.is-visible,
+.reveal-from-left.is-visible,
+.reveal-scale.is-visible {
+    opacity: 1 !important;
+    transform: translate(0, 0) scale(1) !important;
+}
+
+/* تتابع الظهور الأنيق لأيقونات المجالات (Stagger Delay) */
+.category-item.reveal-on-scroll:nth-child(1) { transition-delay: 0.05s; }
+.category-item.reveal-on-scroll:nth-child(2) { transition-delay: 0.15s; }
+.category-item.reveal-on-scroll:nth-child(3) { transition-delay: 0.25s; }
+.category-item.reveal-on-scroll:nth-child(4) { transition-delay: 0.35s; }
+.category-item.reveal-on-scroll:nth-child(5) { transition-delay: 0.45s; }
+.category-item.reveal-on-scroll:nth-child(6) { transition-delay: 0.55s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll,
+    .reveal-from-right,
+    .reveal-from-left,
+    .reveal-scale {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}

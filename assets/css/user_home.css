@@ -1,0 +1,760 @@
+/* assets/css/user_home.css */
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* --- 1. القسم العلوي الأخضر --- */
+.top-green-bg {
+    background: linear-gradient(-45deg, #5CDC00, #2C6800, #4C9F16, #1B4F00);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    height: 250px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* خلفية */
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+/* --- 2. الهيدر المتحرك (Sticky) --- */
+/* تنسيقات الناف بار المحسنة */
+/* --- الناف بار المطابق للصورة --- */
+
+/* --- الناف بار المحسن --- */
+/* --- الناف بار الثابت والمثالي --- */
+
+.user-navbar {
+    background-color: #F2F2F2 !important;
+    border-radius: 50px !important;
+    
+    /* 1. تثبيت الأبعاد بدقة */
+    height: 80px !important;
+    width: 95%;                    /* عرض ثابت */
+    margin: 25px auto;
+    
+    /* 2. إلغاء الحشوة العمودية (لأننا ثبتنا الارتفاع) */
+    padding: 0 40px !important;    
+    
+    /* 3. تنسيقات الظل والتثبيت */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+    
+    /* توسيط المحتوى داخله */
+    display: flex;
+    align-items: center;
+}
+
+/* المنطقة الجانبية (لضمان توسط الروابط) */
+.nav-side-area {
+    min-width: 220px; /* عرض ثابت للمنطقة اليمنى واليسرى */
+    display: flex;
+    align-items: center;
+}
+
+/* تنسيق الروابط */
+/* --- تنسيق الروابط والخط السفلي --- */
+
+.nav-link {
+    color: #333 !important;
+    font-weight: 700 !important;
+    font-size: 16px;
+    margin: 0 12px;
+    transition: color 0.3s ease;
+    position: relative; /* ضروري عشان الخط يتموضع بالنسبة للرابط */
+}
+
+/* الرابط النشط أو عند الهوفر */
+.nav-link.active, .nav-link:hover {
+    color: #2766c6 !important; /* اللون الأزرق */
+}
+
+/* رسم الخط أسفل الرابط النشط */
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;      /* مسافة الخط عن الكلمة */
+    left: 50%;         /* يبدأ من المنتصف */
+    transform: translateX(-50%); /* يسنتر الخط بالضبط */
+    width: 25px;       /* عرض الخط (صغير وأنيق) */
+    height: 3px;       /* سمك الخط */
+    background-color: #2766c6; /* لون الخط (نفس لون النص الأزرق) */
+    border-radius: 10px; /* تدوير حواف الخط */
+    transition: width 0.3s ease; /* حركة ناعمة لو حبيت تخليه يكبر */
+}
+
+/* تنسيق الشعار (لينضبط داخل الارتفاع الثابت) */
+.navbar-brand img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;  /* لضمان عدم مط الصورة */
+    margin-right: 20px;      /* تعديل بسيط للمحاذاة البصرية */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); /* إضافة ظل خفيف للوجو */
+}
+
+/* منطقة النقاط */
+.points-text-box {
+    color: #001A75;
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    /* ✅ التغيير المهم هنا: جعلنا الاتجاه يمين-يسار */
+    direction: rtl; 
+}
+
+
+
+/* --- 3. كارت الترحيب --- */
+.welcome-container {
+    position: relative;
+    z-index: 10;
+    margin-top: 130px; /* ✅ زيادة المسافة لأن النافبار أصبح ثابتاً */
+}
+
+.welcome-card {
+    background-color: white;
+    border-radius: 30px;
+    padding: 25px; /* ✅ تقليل حشوة كرت الترحيب */
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.welcome-title {
+    color: #2C6800;
+    font-weight: 800;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.current-balance {
+    color: #777;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* زخارف الدوائر */
+/* تنسيق الدوائر داخل كارت الترحيب */
+/* assets/css/user_home.css */
+
+/* --- تنسيق الدوائر الأربعة --- */
+
+.welcome-card {
+    position: relative;
+    overflow: hidden; 
+}
+
+/* التنسيق المشترك لجميع الدوائر */
+.circle-decoration {
+    position: absolute;
+    width: 120px;          /* حجم الدائرة */
+    height: 120px;
+    border: 2px solid #66BF26;
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 1. الزاوية العلوية اليسرى */
+.c-top-left {
+    top: -40px;
+    left: -60px;
+}
+.c-top-left2 {
+    top: -70px;
+    left: -30px;
+}
+/* 4. الزاوية السفلية اليمنى */
+.c-bottom-right {
+    bottom: -30px;
+    right: -60px;
+}
+.c-bottom-right2 {
+    bottom: -60px;
+    right: -40px;
+}
+/* ضمان أن النصوص تظهر فوق الدوائر */
+.welcome-title, 
+.imprint-text-card {
+    position: relative;
+    z-index: 2;
+}
+/* --- 4. قسم بصمتك --- */
+.imprint-section {
+    text-align: right;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.imprint-title {
+    color: #2C6800;
+    font-weight: 700;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.imprint-desc {
+    color: #555;
+    margin-right: 35px;
+    font-weight: 600;
+}
+
+/* --- 5. كروت لوحة التحكم --- */
+.dashboard-card {
+    background-color: #F2F2F2;
+    border-radius: 25px;
+    padding: 20px; /* ✅ تقليل حشوة الكروت الجانبية */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important; /* تأكيد المحاذاة للأعلى */
+    height: 100%;
+    flex-grow: 1; /* ضمان تمدد الكارت ليملأ العمود */
+}
+
+.dash-title {
+    font-weight: 800;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    text-align: right;
+    color: #000;
+}
+
+/* --- تحسين قسم أوقات التوافر --- */
+
+/* 1. مفتاح التبديل (Segmented Control) */
+.availability-switch {
+    display: flex;
+    background-color: #e9ecef;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 10px; /* ✅ تقليل المسافة تحت السويتش */
+    position: relative;
+    justify-content: space-between;
+    border: 1px solid #dee2e6;
+}
+
+.availability-switch input[type="radio"] {
+    display: none;
+}
+
+.availability-switch label {
+    flex: 1;
+    text-align: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #6c757d;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+/* الحالة النشطة */
+.availability-switch input[type="radio"]:checked + label {
+    background-color: #fff;
+    color: #104496;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ألوان خاصة لكل حالة عند التحديد */
+#type_always:checked + label { color: #2e7d32; } /* أخضر للمتاح دائماً */
+#type_unavailable:checked + label { color: #c62828; } /* أحمر للغير متاح */
+
+/* 2. حقول الوقت المحسنة */
+.time-selection-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 5px; /* ✅ تقليل المسافة تحت حقول الوقت */
+    direction: rtl;
+}
+
+.time-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-group-label {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.time-input-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 5px 10px;
+    box-shadow: none;
+    min-width: 100px;
+}
+
+.time-input-box:focus-within {
+    border-color: #66BF26;
+    box-shadow: none;
+    transform: none;
+}
+
+.time-field {
+    border: none;
+    width: 38px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #333;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* إخفاء أسهم الأرقام */
+.time-field::-webkit-outer-spin-button,
+.time-field::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none; /* الخاصية القياسية */
+    margin: 0;
+}
+.time-field[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield; /* الخاصية القياسية */
+}
+
+.time-colon {
+    font-weight: 700;
+    color: #ccc;
+    margin: 0 4px;
+    padding-bottom: 4px;
+    font-size: 1.2rem;
+}
+
+.time-arrow {
+    color: #66BF26;
+    font-size: 0.9rem;
+}
+
+/* كرت الطلبات (معدل) */
+.order-card-content {
+    display: flex;
+    align-items: flex-start; /* محاذاة للأعلى لتوازي شريط الاكتمال */
+    justify-content: space-between;
+    margin-top: auto;    /* توزيع المساحة العلوية تلقائياً */
+    margin-bottom: auto; /* توزيع المساحة السفلية تلقائياً (توسيط عمودي) */
+    width: 100%;
+}
+/* --- تنسيق شريط التقدم العصري --- */
+
+/* --- تنسيق شريط التقدم (معدل) --- */
+
+.progress-container {
+    background-color: #e9ecef;
+    border-radius: 50px;
+    padding: 3px;
+    
+    /* ✅ 1. زيادة عرض (ارتفاع) الشريط */
+    height: 25px;  /* كان 18px، الآن أصبح أكبر وأوضح */
+    
+    width: 100%;
+    margin-bottom: 12px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.progress-bar-custom {
+    /* ✅ 2. التدرج يبدأ من اليمين (to left) */
+    /* اليمين: غامق (#1B4F00) -> اليسار: فاتح (#66BF26) */
+    background: linear-gradient(to left, 
+        #1B4F00 0%,   /* البداية (يمين) - أخضر غامق */
+        #408A10 50%,  /* المنتصف - أخضر متوسط */
+        #66BF26 100%  /* النهاية (يسار) - أخضر فاتح */
+    );
+    
+    height: 100%;
+    border-radius: 50px;
+    width: 66%; /* النسبة */
+    
+    box-shadow: 0 2px 5px rgba(27, 79, 0, 0.3);
+    transition: width 0.6s ease-in-out;
+}
+/* تحسين النص أسفل الشريط */
+.progress-text {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 600;
+}
+
+/* أيقونة الطلب المكبرة */
+.order-icon-box {
+    width: 80px;
+    height: 80px;
+    background-color: #f0f4f8;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    margin-top: -25px; /* زيادة الرفع قليلاً لضبط المحاذاة مع التوسيط الجديد */
+}
+
+/* تكبير الصورة داخل الصندوق */
+.order-icon-box img {
+    width: 45px;
+    height: 45px;
+}
+
+/* --- 6. الفئات --- */
+.cats-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 25px; /* ✅ تقليل المسافة فوق الأيقونات */
+    margin-bottom: 20px; /* ✅ تقليل المسافة تحت الأيقونات */
+    flex-wrap: wrap;
+}
+.cat-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #F8F9FA;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.cat-item:hover .cat-circle {
+    background-color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.cat-label {
+    text-align: center;
+    font-weight: 700;
+    color: #2C6800;
+}
+/* تنسيق جملة "لقد ساهمت..." داخل الكارت */
+.imprint-text-card {
+    color: #555;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.counter-num {
+    color: #66BF26; /* جعلنا الرقم أخضر ليميّزه */
+    font-weight: 800;
+    font-size: 1.4rem;
+}
+
+/* --- زر حفظ الوقت المخصص --- */
+.btn-custom-save {
+    background-color: #66BF26 !important; /* اللون الأخضر الخاص بالهوية */
+    border: none !important;
+    color: white !important;
+    box-shadow: none !important;
+    transition: background-color 0.2s;
+    padding: 5px 20px !important;
+    font-size: 0.9rem;
+}
+
+/* تأثير عند مرور الماوس (Hover) */
+.btn-custom-save:hover {
+    background-color: #4C9F16 !important; /* لون أغمق قليلاً */
+    box-shadow: none !important;
+}
+
+/* تأثير عند الضغط (Active) */
+
+/* --- تأثير الهوفر على خانات الخدمات (الفئات) --- */
+
+/* 1. عند مرور الماوس، الدائرة تصبح خضراء وتتحرك للأعلى */
+.cat-item:hover .cat-circle {
+    background-color: #66BF26; /* لون الخلفية أخضر */
+    transform: translateY(-5px); /* رفع العنصر قليلاً */
+    box-shadow: 0 10px 25px rgba(102, 191, 38, 0.4); /* ظل أخضر متوهج */
+    border-color: #66BF26;
+}
+
+/* 2. جعل الأيقونة (الصورة) بيضاء بالكامل عند الهوفر */
+/* ملاحظة: هذا الفلتر يعمل بامتياز على أيقونات SVG و PNG السوداء */
+.cat-item:hover .cat-circle img {
+    filter: brightness(0) invert(1); 
+    transition: all 0.3s ease;
+}
+
+/* 3. تغيير لون النص أسفل الدائرة إلى الأخضر */
+.cat-item:hover .cat-label {
+    color: #2C6800; /* أخضر غامق ليكون النص واضحاً */
+    font-weight: 800;
+}
+
+/* إضافة نعومة للحركة للعناصر الأصلية */
+.cat-circle, .cat-label, .cat-circle img {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ============================================================== */
+/* --- استجابة الشاشات المختلفة (Responsive Design) --- */
+/* ============================================================== */
+
+/* الايباد والتابلت */
+@media (max-width: 991.98px) {
+    .user-navbar {
+        width: 100%;
+        margin-top: 0;
+        border-radius: 0 !important;
+        padding: 0 15px !important;
+    }
+    
+    .welcome-container {
+        margin-top: 100px;
+    }
+    
+    .welcome-title {
+        font-size: 1.7rem;
+    }
+    
+    .circle-decoration {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .cats-grid {
+        gap: 20px;
+    }
+    
+    .dashboard-card {
+        margin-bottom: 20px;
+    }
+}
+
+/* الموبايل والهواتف الذكية */
+@media (max-width: 767.98px) {
+    .user-navbar {
+        padding: 0 10px !important;
+        height: 70px !important;
+    }
+    
+    .user-navbar .container-fluid {
+        flex-wrap: nowrap !important;
+    }
+    
+    .nav-side-area {
+        min-width: auto !important;
+        flex-shrink: 1;
+    }
+    
+    .navbar-brand img {
+        height: 45px;
+        margin-right: 8px; /* موازنة المسافة لتطابق بادينج أيقونة البرغر (8px) */
+        transform: none; /* إزالة الإزاحة السابقة */
+    }
+    
+    /* إصلاح القائمة المنسدلة لتكون واضحة ولها خلفية */
+    .navbar-collapse {
+        background-color: var(--nav-bg, #F2F2F2);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        z-index: 1000;
+    }
+    
+    .welcome-container {
+        margin-top: 90px;
+    }
+    
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    
+    .circle-decoration {
+        display: none; /* إخفاء الدوائر الزخرفية في الموبايل لمنع التداخل وتوفير المساحة */
+    }
+    
+    .cats-grid {
+        gap: 10px;
+        justify-content: space-evenly;
+        margin-bottom: 80px; /* تم زيادة الفراغ من الأسفل بشكل كبير حسب الطلب */
+    }
+    
+    .cat-item {
+        flex: 0 0 30%; /* وضع كل 3 خدمات في سطر واحد تماماً */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cat-circle {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .cat-label {
+        font-size: 0.85rem; /* تصغير الخط قليلاً لتناسب السطر */
+    }
+    
+    .dashboard-card {
+        padding: 15px;
+    }
+    
+    .top-green-bg {
+        height: 200px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+    
+    .dash-title {
+        text-align: center !important;
+        margin-bottom: 20px;
+    }
+    
+    .time-selection-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* إصلاح أبعاد حاوية الوقت في الموبايل حصرياً */
+    .time-container-mobile {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 15px !important;
+    }
+    .time-inputs-row {
+        justify-content: space-between;
+        width: 100%;
+        direction: rtl;
+    }
+    .time-inputs-row .time-input-box {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+    }
+    .time-buttons-row {
+        width: 100%;
+        justify-content: center;
+    }
+    .time-buttons-row .btn-custom-save {
+        flex-grow: 1;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* تنسيق بوكس عدد الطلبات ليكون أكثر تناسقاً وجمالاً في الهاتف بجانب بعضهما */
+    .order-card-content {
+        flex-direction: row; /* الأيقونة بجانب الشريط (على اليسار في العربية) */
+        align-items: flex-start; /* محاذاة للأعلى ليكون بمستوى الشريط تماماً */
+        text-align: right;
+        gap: 15px; /* مسافة بين الشريط والأيقونة */
+        margin-top: 10px;
+    }
+    
+    .order-icon-box {
+        margin: 0 !important; /* إلغاء التوسيط التلقائي */
+        width: auto;
+        height: auto;
+        background-color: transparent !important; /* إزالة الدائرة/الخلفية تماماً */
+        border-radius: 0;
+        box-shadow: none !important; /* إزالة الظل */
+        flex-shrink: 0; /* لمنع الأيقونة من الانضغاط */
+        margin-top: -6px !important; /* رفعه أكثر ليتوازى منتصف الأيقونة مع منتصف الشريط */
+    }
+
+    .order-icon-box img {
+        width: 35px; /* تكبير الأيقونة كما طلب المستخدم */
+    }
+
+    /* جعل شريط التقدم أعرض بشكل ملحوظ في الهاتف ليبدو أجمل */
+    .progress-container {
+        width: 100%;
+        height: 22px; /* شريط عريض ومميز */
+        border-radius: 20px;
+    }
+
+    .progress-bar-custom {
+        border-radius: 20px;
+    }
+
+    /* نصوص الحد اليومي والمتبقي */
+    .order-card-content > div:first-child {
+        width: 100%;
+    }
+    
+    .order-card-content .d-flex.justify-content-between {
+        margin-top: 10px !important;
+        padding: 0 5px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .cat-circle {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .cats-grid {
+        gap: 10px;
+    }
+    
+    .welcome-title {
+        font-size: 1.3rem;
+    }
+    
+    .imprint-text-card {
+        font-size: 1rem;
+    }
+    
+    .counter-num {
+        font-size: 1.2rem;
+    }
+}

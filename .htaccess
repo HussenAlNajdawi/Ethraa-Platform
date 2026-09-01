@@ -1,0 +1,19 @@
+<IfModule mod_headers.c>
+    # 1. إعدادات الحماية الشاملة لجميع الملفات (يحل تنبيهات Systemic)
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';"
+
+    # 2. تأمين الكوكيز والجلسات (يحل تنبيهات HttpOnly و SameSite)
+    Header edit Set-Cookie ^(.*)$ $1;HttpOnly;SameSite=Lax
+
+    # 3. إخفاء معلومات السيرفر (يحل تنبيهات Server Leaks و X-Powered-By)
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+    Header always unset Server
+    Header unset Server
+</IfModule>
+
+ServerSignature Off

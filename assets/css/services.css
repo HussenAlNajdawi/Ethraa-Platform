@@ -1,0 +1,184 @@
+/* إعدادات الصفحة */
+body, html {
+    overflow-x: hidden;
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 0 !important;
+    /* ✅ 1. استعادة لون الخلفية الأصلي الثابت */
+    background-color: white; 
+}
+
+/* حاوية التوسيط (والتي ستحتوي الأشكال الزخرفية) */
+.full-page-container {
+    min-height: calc(100vh - 120px);
+    margin-top: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* ضروري لتموضع الأشكال الخلفية */
+    z-index: 1; /* لضمان أن المحتوى فوق الأشكال */
+}
+
+/* --- ✅ 3. إضافة الأشكال الزخرفية الخلفية --- */
+
+/* شكل دائري أزرق فاتح في الأعلى يسار */
+.full-page-container::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background-color: rgba(0, 26, 117, 0.04); /* لون كحلي شفاف جداً */
+    border-radius: 50%; /* شكل دائري */
+    filter: blur(80px); /* تمويه قوي لجعلها ناعمة */
+    z-index: -1; /* خلف المحتوى */
+}
+
+/* شكل دائري أخضر فاتح في الأسفل يمين */
+.full-page-container::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background-color: rgba(102, 191, 38, 0.07); /* لون أخضر الهوية شفاف جداً */
+    border-radius: 50%;
+    filter: blur(70px);
+    z-index: -1;
+}
+
+/* ----------------------------------------- */
+
+/* رابط الكرت */
+.service-card {
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    background: transparent !important;
+}
+
+/* المربع الأبيض */
+.white-box {
+    width: 220px;
+    height: 220px;
+    background-color: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+/* الصورة داخل المربع */
+.white-box img {
+    /* ✅ 2. تكبير الصورة الأساسية أكثر */
+    width: 85%;  /* كانت 75% */
+    height: 85%; /* كانت 75% */
+    object-fit: contain;
+    
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* تنسيق الاسم */
+.service-title {
+    color: #001A75;
+    font-weight: 800;
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+/* --- تأثيرات الهوفر --- */
+.service-card:hover .white-box {
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.service-card:hover .white-box img {
+    /* زوم بسيط لأن الصورة كبيرة أصلاً */
+    transform: scale(1.08); 
+}
+
+/* للشاشات الصغيرة */
+@media (max-height: 750px) {
+    .white-box {
+        width: 170px;
+        height: 170px;
+        border-radius: 30px;
+    }
+    .service-card {
+        width: 190px;
+    }
+    .service-title {
+        font-size: 1.4rem;
+    }
+    /* تصغير الأشكال الخلفية قليلاً */
+    .full-page-container::before,
+    .full-page-container::after {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+/* ============================================================== */
+/* --- استجابة الشاشات المختلفة (Responsive Design) --- */
+/* ============================================================== */
+
+/* الشاشات الصغيرة (الموبايل) */
+@media (max-width: 768px) {
+    .full-page-container {
+        margin-top: 80px; /* تقليل الفراغ العلوي الذي كان 120px */
+        min-height: auto; /* إلغاء الارتفاع الإجباري الذي كان يسبب توسيطاً عمودياً (فراغ كبير) */
+        padding-top: 20px;
+        padding-bottom: 40px;
+        align-items: flex-start; /* دفع الكروت للأعلى بدلاً من المنتصف */
+    }
+    
+    .white-box {
+        width: 140px;
+        height: 140px;
+        border-radius: 25px;
+        margin-bottom: 10px;
+    }
+    .service-card {
+        width: 150px;
+        margin-bottom: 15px;
+    }
+    .service-title {
+        font-size: 1.1rem;
+    }
+    
+    /* جعل العناصر مرصوصة بشكل أفضل في الجوال */
+    .row {
+        gap: 0;
+    }
+    
+    /* تصغير الأشكال الخلفية قليلاً */
+    .full-page-container::before,
+    .full-page-container::after {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 400px) {
+    .white-box {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+    }
+    .service-card {
+        width: 100%;
+    }
+    .service-title {
+        font-size: 0.95rem;
+    }
+}

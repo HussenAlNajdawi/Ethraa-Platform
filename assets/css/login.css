@@ -1,0 +1,226 @@
+/* assets/css/login.css */
+
+body {
+min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    font-family: 'Cairo', sans-serif;
+    overflow: hidden;
+}
+
+
+/* تأكد أن اسم الكلاس هنا يطابق الموجود في ملف HTML (سواء register-card أو login-card) */
+.login-card {
+    width: 1100px;
+    max-width: 95%;
+    height: 90vh;
+    max-height: 750px;
+    background-color: white;
+    border-radius: 45px;
+    padding: 30px; 
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    display: flex;
+    position: relative; /* ضروري جداً لتثبيت الزر */
+    box-sizing: border-box;
+}
+
+/* === المربع الأزرق مع تدرج لوني متحرك === */
+.blue-sidebar {
+    background: linear-gradient(-45deg, #0075FF, #001A75, #0044cc, #021C7B);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    width: 45%;
+    height: 100%;
+    border-radius: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 60px;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.brand-title {
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 0;
+    line-height: 1.2;
+}
+
+.brand-subtitle {
+    font-size: 24px;
+    font-weight: medium;
+    opacity: 0.95;
+    margin-top: 16px;
+}
+
+.blue-sidebar::after{
+    content: "";
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.338);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.blue-sidebar::before {
+content: "";
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.701);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.blue-sidebar::after { width: 300px; height: 300px; bottom: -150px; left: -150px; }
+.blue-sidebar::before { width: 350px; height: 350px; bottom: -210px; left: -150px; }
+
+.form-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 50px;
+}
+
+/* === زر الإغلاق (تأكد من الـ z-index) === */
+.close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 28px;
+    cursor: pointer;
+    z-index: 100; /* رفعنا الطبقة لضمان ظهورها فوق كل شيء */
+    transition: transform 0.2s;
+}
+.close-btn:hover { transform: scale(1.1); }
+
+.page-title {
+    color: #001A75;
+    font-weight: 700;
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.custom-input-group {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.custom-input {
+    border-radius: 15px !important;
+    border: 1px solid #e1e1e1;
+    padding: 10px 15px;
+    padding-left: 45px;
+    height: 52px;
+    font-size: 15px;
+    text-align: right;
+    background-color: white;
+    width: 100%;
+    font-weight: 500;
+    color: #333;
+}
+
+.custom-input:focus {
+    border-color: #0075FF;
+    box-shadow: 0 0 0 3px rgba(0, 117, 255, 0.1);
+    outline: none;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.btn-login-blue {
+    background-color: #0075FF;
+    color: white;
+    font-weight: medium;
+    border-radius: 12px;
+    padding: 14px;
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-login-blue:hover { 
+    background-color: #001A75; 
+    color: white !important;
+}
+
+.btn-login-blue:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.bottom-links {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: medium;
+    color: #212529bf;
+}
+.bottom-links a { text-decoration: none; color: #333; font-weight: 700; }
+.forgot-pass { display: block; margin-top: 10px; font-weight: 700; color: #000; text-decoration: none; }
+
+/* إظهار المربع الأزرق فقط في الشاشات الكبيرة والتجاوب مع الايباد والموبايل */
+@media (max-width: 991.98px) {
+    body { padding: 15px; display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: #f0f2f5; box-sizing: border-box; }
+    .login-card { 
+        flex-direction: column; 
+        height: auto; 
+        max-height: none; 
+        width: 100%; 
+        max-width: 450px;
+        padding: 0; 
+        border-radius: 25px; 
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        overflow: hidden;
+        margin: auto;
+    }
+    .blue-sidebar { 
+        width: 100%; 
+        min-height: 150px; 
+        margin: 0; 
+        padding: 25px 20px; 
+        border-radius: 0;
+        background: linear-gradient(135deg, #0075FF 0%, #001A75 100%);
+    }
+    .blue-sidebar::after, .blue-sidebar::before { display: none; }
+    .brand-title { font-size: 26px; }
+    .brand-subtitle { font-size: 15px; margin-top: 5px; }
+    .form-section { padding: 40px 25px 35px 25px; display: flex; flex-direction: column; justify-content: center; width: 100%; box-sizing: border-box; }
+    .close-btn { top: 20px; right: 20px; width: 22px; filter: none; z-index: 100; }
+}
+
+@media (max-width: 767.98px) {
+    .page-title { font-size: 1.8rem; margin-bottom: 20px; }
+    .custom-input { height: 48px; font-size: 14px; }
+    .btn-login-blue { padding: 12px; font-size: 16px; }
+    .brand-title { font-size: 28px; }
+    .brand-subtitle { font-size: 16px; }
+}

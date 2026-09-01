@@ -1,0 +1,190 @@
+/* assets/css/guide.css */
+
+/* تفعيل السكرول للصفحة (تجاوز إعدادات user_home.css) */
+html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+}
+
+.guide-container {
+    padding-top: 50px;
+    padding-bottom: 80px;
+    max-width: 900px;
+}
+
+.guide-title {
+    color: #021C7B;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.guide-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.nav-pills .nav-link {
+    color: #555;
+    background-color: #f8f9fa;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #104496;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(16, 68, 150, 0.3);
+}
+
+.guide-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    position: relative;
+}
+
+/* الخط الرابط بين الخطوات */
+.guide-card::before {
+    content: '';
+    position: absolute;
+    right: 59px; /* مكان الخط العمودي */
+    top: 50px;
+    bottom: 50px;
+    width: 2px;
+    background-color: #e9ecef;
+    z-index: 0;
+    /* إعدادات ظهور الخط تدريجياً */
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 2s ease-out; /* مدة الحركة ثانيتين ليكون الرسم بطيئاً وجميلاً */
+}
+
+/* الكلاس الذي يظهر الخط */
+.guide-card.visible-line::before {
+    transform: scaleY(1);
+}
+
+.step-row {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 1;
+    /* إعدادات الظهور التدريجي (Fade In) */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* الكلاس الذي سيتم إضافته بواسطة جافاسكربت عند التمرير */
+.step-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.step-row:last-child {
+    margin-bottom: 0;
+}
+
+.step-num {
+    width: 40px;
+    height: 40px;
+    background-color: #66BF26;
+    color: white;
+    font-weight: 800;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 5px #fff; /* إطار أبيض لفصل الرقم عن الخط الخلفي */
+}
+
+.step-content h5 {
+    color: #021C7B;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.step-content p {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* تنسيق الصور */
+.guide-img {
+    width: 100%; /* العرض يتجاوب مع الشاشة */
+    max-width: 600px; /* أقصى عرض للصورة لكي لا تصبح كبيرة جداً */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    margin-top: 15px;
+    transition: all 0.3s ease; /* إضافة نعومة للحركة */
+}
+
+/* تأثير التكبير عند مرور الماوس */
+.guide-img:hover {
+    transform: scale(1.03); /* تكبير الصورة بنسبة 3% */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* إبراز الظل لإعطاء عمق أكبر */
+}
+
+/* استجابة للموبايل والتابلت */
+@media (max-width: 991.98px) {
+    .guide-card {
+        padding: 30px;
+    }
+    .guide-card::before {
+        right: 49px;
+    }
+}
+
+@media (max-width: 768px) {
+    .guide-card {
+        padding: 20px;
+    }
+    .guide-card::before {
+        display: none;
+    }
+    .step-row {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    .step-num {
+        margin: 0 auto;
+    }
+    .guide-title {
+        font-size: 1.5rem;
+    }
+    .guide-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* إخفاء العناصر غير المرغوبة عند الطباعة */
+@media print {
+    .no-print, .navbar, .footer {
+        display: none !important;
+    }
+    /* ضمان ظهور الخطوات عند الطباعة بشكل طبيعي */
+    .step-row {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+    .guide-card::before {
+        transform: scaleY(1) !important;
+    }
+}
+
+/* زر الرجوع (أيقونة) */
+.guide-back-btn {
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+.guide-back-btn:hover {
+    transform: scale(1.1);
+}

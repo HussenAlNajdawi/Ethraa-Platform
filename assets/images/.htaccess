@@ -1,0 +1,5 @@
+<FilesMatch "\.(php|php[3-8]?|phtml|phar|phps|pht|pl|py|cgi|sh|shtml|inc|asp|aspx|jsp|exe|bat)$">
+    SetHandler None
+    Require all denied
+</FilesMatch>
+Options -ExecCGI -Indexes

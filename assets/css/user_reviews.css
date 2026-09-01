@@ -1,0 +1,119 @@
+/* assets/css/user_reviews.css */
+
+/* بطاقة الملخص في الأعلى */
+.summary-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 40px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+    border: 1px solid #f0f0f0;
+}
+
+.summary-rating-value {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #104496;
+    line-height: 1;
+}
+
+.summary-stars {
+    font-size: 1.5rem;
+    margin: 5px 0;
+}
+
+.summary-count {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #6c757d;
+}
+
+/* قائمة التقييمات */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    transition: all 0.2s ease-in-out;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+}
+
+.reviewer-info {
+    flex-shrink: 0;
+    width: 130px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid #eee;
+    padding-left: 20px;
+}
+
+.reviewer-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e3f2fd;
+    color: #104496;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.reviewer-name { font-weight: 700; color: #333; font-size: 0.9rem; }
+.review-date { font-size: 0.8rem; color: #888; }
+
+.review-content { flex-grow: 1; }
+.review-stars { font-size: 1.1rem; margin-bottom: 10px; }
+
+.review-comment {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border-right: 3px solid #104496;
+}
+.review-comment i { color: #ccc; margin-left: 5px; }
+
+/* ============================================================== */
+/* --- استجابة الشاشات الصغيرة (الموبايل) --- */
+/* ============================================================== */
+@media (max-width: 768px) {
+    .summary-card {
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+    .summary-rating-value {
+        font-size: 2.5rem;
+    }
+    .review-card {
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+    }
+    .reviewer-info {
+        width: 100%;
+        border-left: none;
+        border-bottom: 1px solid #eee;
+        padding-left: 0;
+        padding-bottom: 15px;
+        margin-bottom: 5px;
+    }
+}

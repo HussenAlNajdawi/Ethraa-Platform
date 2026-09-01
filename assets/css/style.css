@@ -1,0 +1,533 @@
+/* assets/css/style.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
+:root {
+    --dark-blue: #021C7B;
+    --light-blue: #3498db;
+    --green: #7abd28;
+    --gray-bg: #F2F2F2;
+    --text-gray: #555;
+
+    /* متغيرات الألوان الأساسية (الوضع الفاتح) لضمان عدم اختفاء الخلفيات */
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --card-bg: #ffffff;
+    --section-bg: #F2F2F2;
+    --border-color: #eeeeee;
+    --nav-bg: #F2F2F2;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden;
+    /* زدنا المسافة قليلاً لأن الهيدر أصبح عائماً ويحتاج مساحة تحته */
+    padding-top: 110px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    
+    /* إخفاء شريط التمرير لمتصفحات فايرفوكس وإيدج */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    /* تحسينات مخصصة للهواتف المحمولة */
+    -webkit-tap-highlight-color: transparent; /* إزالة المربع الأزرق المزعج عند النقر على الشاشة في الهواتف */
+}
+
+button, a, input, select {
+    touch-action: manipulation; /* منع التكبير التلقائي عند النقر المزدوج السريع على الهواتف */
+}
+
+/* إخفاء شريط التمرير لمتصفحات كروم وسفاري */
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- تنسيق البار العلوي (Floating Navbar) --- */
+.navbar {
+    position: fixed; /* إضافة تثبيت النافبار */
+    top: 0; /* إلغاء المسافة الإضافية */
+    background-color: var(--nav-bg);
+    /* تصغير الهيدر عن طريق تقليل البادينغ */
+    padding: 0 20px;
+    height: 80px; /* تثبيت الارتفاع ليكون متناسقاً */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    
+    /* ✅ التعديلات الجديدة: مسافة من فوق + حواف دائرية */
+    width: 95%; /* ليس كامل الشاشة */
+    margin: 15px auto 0; /* مسافة 15px من فوق وتوسط أفقي */
+    border-radius: 50px; /* إضافة الحواف الدائرية */
+    
+    /* تثبيت في المنتصف */
+    left: 0; 
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ✅ إصلاح الحاوية الداخلية لتتوسط النافبار وتأخذ ارتفاعه */
+.navbar .container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 100%;
+    margin-top: 0 !important; /* ✅ إصلاح المشكلة: إلغاء الهامش العلوي للحاوية داخل النافبار */
+}
+
+/* الحفاظ على حجم اللوجو كبيراً رغم تصغير الهيدر */
+.navbar-brand img {
+    height: 70px; /* ✅ تكبير اللوجو ليطابق الصفحات الداخلية */
+    transition: 0.3s;
+    width: auto;
+    object-fit: contain;
+    margin: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); /* إضافة ظل خفيف للوجو */
+}
+
+.btn-login-nav {
+    background-color: var(--dark-blue);
+    color: white !important;
+    border-radius: 25px;
+    padding: 8px 30px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-login-nav:hover {
+    background-color: #0445AB;
+    transform: translateY(-2px);
+}
+
+/* --- الفوتر --- */
+.footer {
+    background-color: var(--card-bg);
+    padding-top: 60px;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer h5 {
+    color: var(--text-color);
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.footer ul { padding: 0; list-style: none; }
+.footer ul li { margin-bottom: 10px; }
+.footer ul li a {
+    color: #555;
+    text-decoration: none;
+    transition: 0.2s;
+    display: inline-block;
+}
+.footer ul li a:hover { color: var(--dark-blue);
+transform: scale(1.1); /* تكبير بنسبة 15% */ }
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.copyright {
+    background-color: rgba(33, 115, 166, 0.25);
+    padding: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    margin-top: 40px;
+}
+
+/* --- تنسيقات صفحة شروط الاستخدام (وصفحات المحتوى النصي) --- */
+
+/* الصندوق الرمادي الكبير */
+.terms-box {
+    background-color: var(--card-bg); 
+    border-radius: 25px;       /* زوايا دائرية */
+    padding: 50px;             /* حشوة داخلية كبيرة */
+    margin-top: 20px;
+    margin-bottom: 50px;       /* مسافة من الأسفل قبل الفوتر */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03); /* ظل خفيف جداً */
+    color: var(--text-color);
+    line-height: 1.8;          /* تباعد الأسطر للقراءة المريحة */
+}
+
+/* العنوان الرئيسي */
+.terms-title {
+    color: var(--dark-blue);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+/* المقدمة */
+.lead-text {
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* العناوين الفرعية (الأرقام) */
+.terms-heading {
+    color: var(--dark-blue); /* سيأخذ اللون الأزرق من المتغيرات في الأعلى */
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* العناوين الفرعية الصغيرة (مثل 3.1) */
+.sub-heading {
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+/* تنسيق القوائم النقطية */
+.terms-box ul {
+    list-style-type: disc;
+    padding-right: 20px; /* مسافة للنقاط من اليمين */
+    margin-bottom: 15px;
+}
+
+.terms-box ul li {
+    margin-bottom: 10px;
+}
+
+/* القائمة المتداخلة */
+.nested-list {
+    margin-top: 5px;
+    margin-right: 20px;
+    list-style-type: circle;
+}
+
+/* للموبايل: تقليل الحشوة */
+@media (max-width: 768px) {
+    .terms-box {
+        padding: 20px;
+    }
+}
+
+/* --- تنسيقات صفحة من نحن (About Us) --- */
+
+/* العناوين (يمين الصفحة) */
+.about-title {
+    color: var(--dark-blue);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: right; /* محاذاة لليمين */
+    margin-bottom: 10px;
+}
+
+/* الخط الأزرق الفاصل */
+.blue-line {
+    height: 1px;
+    background-color: #003366; /* نفس درجة الأزرق الغامق */
+    width: 100%;
+    opacity: 0.3; /* شفافية خفيفة ليكون ناعماً */
+    margin-bottom: 30px;
+}
+
+/* النص (في المنتصف) */
+.about-text {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    line-height: 1.8;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+/* الصندوق الرمادي (قسم من نحن) */
+.about-gray-box {
+    background-color: var(--card-bg); 
+    padding: 40px;
+    margin: 40px 0; /* مسافة من فوق وتحت */
+    border-radius: 20px;
+    /* لا يوجد حواف دائرية واضحة في الصورة، لذا تركناها حادة أو يمكن إضافة border-radius: 5px; */
+}
+
+/* تمييز النص الأخضر في الرؤية */
+.green-highlight {
+    color: #7abd28; /* نفس درجة الأخضر في الشعار */
+    border-bottom: 1px solid #7abd28; /* خط تحت النص الأخضر كما يبدو في التصميم */
+    padding-bottom: 2px;
+}
+
+/* تحسينات للموبايل */
+@media (max-width: 768px) {
+    .about-text {
+        font-size: 1rem;
+        text-align: right; /* في الموبايل القراءة أسهل يمين */
+    }
+    .about-gray-box {
+        padding: 20px;
+    }
+}
+
+/* ================= حالة الخطأ والنجاح للحقول (Validation) ================= */
+.custom-input.input-error {
+    border-color: #dc3545 !important;
+    background-color: #fff0f0 !important;
+}
+
+.custom-input.input-success {
+    border-color: #28a745 !important;
+    background-color: #f0fff4 !important;
+}
+
+/* ============================================================== */
+/* --- زر الدعم الفني العائم (WhatsApp Support) --- */
+/* ============================================================== */
+.support-float-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px; /* الزاوية اليمنى (عكس زر الوضع الليلي) */
+    background-color: #25D366;
+    color: white !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    z-index: 99998;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-decoration: none !important;
+}
+.support-float-btn:hover {
+    transform: scale(1.15) rotate(-10deg);
+    text-decoration: none !important;
+}
+
+/* ============================================================== */
+/* --- زر الصعود للأعلى (Scroll to Top) --- */
+/* ============================================================== */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 85px; /* يظهر فوق زر الدعم الفني بقليل */
+    right: 25px;
+    background-color: var(--dark-blue);
+    color: white !important;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 99998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+.scroll-top-btn.show { opacity: 1; visibility: visible; }
+.scroll-top-btn:hover { transform: translateY(-5px); }
+
+/* ============================================================== */
+/* --- شريط تقدم التمرير وتأثير النبض --- */
+/* ============================================================== */
+.scroll-progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    z-index: 100000; /* يطفو فوق كل شيء حتى النافبار */
+    pointer-events: none;
+}
+.scroll-progress-bar {
+    height: 100%;
+    background: #66BF26; /* أخضر متناسق مع الهوية */
+    width: 0%;
+    border-bottom-left-radius: 4px; /* زاوية ناعمة لأنه يتجه لليسار في الـ RTL */
+    transition: width 0.1s ease-out;
+}
+
+@keyframes pulse-badge {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(220, 53, 69, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+.pulse-badge {
+    animation: pulse-badge 2s infinite;
+}
+
+/* ============================================================== */
+/* --- استجابة الشاشات الصغيرة (الموبايل) للقوائم العامة --- */
+/* ============================================================== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 15px;
+        height: 70px;
+        width: 100%;
+        margin-top: 0;
+        border-radius: 0;
+    }
+    body {
+        padding-top: 80px;
+    }
+    .navbar-brand img {
+        height: 50px;
+        margin-right: 8px; /* لمطابقة مسافة زر تسجيل الدخول أو أيقونات النافبار */
+        transform: none;
+    }
+    .footer-logo-mobile {
+        transform: translateX(-15px); /* إزاحة لليسار قليلاً */
+    }
+    .btn-login-nav {
+        padding: 6px 20px;
+        font-size: 13px;
+    }
+    .footer .row {
+        text-align: center !important;
+    }
+}
+
+/* تعديل اضافي للايباد والتابلت بشكل عام */
+@media (max-width: 991.98px) {
+    .navbar {
+        width: 100%;
+        margin-top: 0;
+        border-radius: 0;
+        padding: 0 15px;
+    }
+    
+    body {
+        padding-top: 80px;
+    }
+
+    /* إزالة المربع (الحدود) حول أيقونة البرغر وإضافة تأثير مميز */
+    .navbar-toggler {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        padding: 8px; /* مساحة مناسبة للتأثير */
+        border-radius: 50%; /* لجعل التأثير الخلفي دائرياً */
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* انتقال سلس */
+    }
+    
+    /* التأثير المميز عند مرور المؤشر (Hover) */
+    .navbar-toggler:hover {
+        background-color: rgba(2, 28, 123, 0.08); /* لون أزرق خفيف وناعم جداً */
+        transform: scale(1.1) rotate(3deg); /* تكبير بسيط مع دوران لا يكاد يلاحظ يضفي حيوية */
+    }
+    
+    /* تأثير إضافي عند النقر */
+    .navbar-toggler:active {
+        transform: scale(0.95);
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: none !important;
+    }
+
+    /* القائمة المنسدلة مدمجة مع الهيدر (تأثير الدرج المنزلق) */
+    .navbar-collapse {
+        background-color: var(--nav-bg, #F2F2F2); /* نفس لون الهيدر لتبدو مدمجة */
+        position: absolute;
+        top: 100%; /* تلتصق بالهيدر تماماً */
+        left: 0;
+        right: 0;
+        padding: 15px 0 25px 0; 
+        box-shadow: 0 15px 25px rgba(0,0,0,0.08); /* الظل من الأسفل فقط */
+        border-radius: 0 0 30px 30px; /* حواف دائرية من الأسفل فقط */
+        border: none;
+        border-top: 1px solid rgba(0,0,0,0.03); /* خط فاصل خفيف جداً بين الهيدر والقائمة */
+        
+        display: flex !important;
+        flex-direction: column;
+        align-items: center; 
+        justify-content: center;
+
+        /* 🌟 تأثير الدرج (الانزلاق من الأعلى للأسفل) باستخدام الكليب باث 🌟 */
+        clip-path: inset(0 0 100% 0); /* مخفية بالكامل من الأسفل للأعلى */
+        visibility: hidden;
+        transition: clip-path 0.4s ease-in-out, visibility 0.4s !important;
+        height: auto !important; 
+        transform: translateY(0); /* نلغي أي إزاحة سابقة */
+        opacity: 1; /* نظهرها لنعتمد فقط على الكليب باث */
+    }
+
+    /* عندما تفتح القائمة */
+    .navbar-collapse.show {
+        clip-path: inset(0 0 0 0); /* ظهور كامل */
+        visibility: visible;
+    }
+    
+    /* أثناء حالة الفتح والاغلاق */
+    .navbar-collapse.collapsing {
+        clip-path: inset(0 0 100% 0);
+        visibility: hidden;
+        height: auto !important;
+        transition: clip-path 0.4s ease-in-out, visibility 0.4s !important;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* توسيط التبويبات بالمنتصف تماماً */
+        justify-content: center;
+        padding: 0 !important; /* إزالة أي فراغ داخلي أفتراضي يسبب إزاحة */
+        margin: 0 !important;
+    }
+
+    .navbar-nav .nav-item {
+        margin-top: 0 !important;
+        margin-bottom: 10px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+        width: 100%; /* العرض كامل ليتم توسيط النص داخله */
+        text-align: center;
+        padding: 0 !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .navbar-nav .nav-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0 !important;
+    }
+    .navbar-nav .nav-link {
+        padding: 12px 0 !important; /* إزالة البادينج الجانبي من الرابط نفسه */
+        font-weight: 700;
+        color: var(--dark-blue);
+        text-align: center;
+        border-radius: 12px;
+        display: block; /* لضمان أخذ العرض بالكامل وقابلية النقر */
+        width: 90%; /* نأخذ 90% من العرض ليكون التظليل عند النقر متوسطاً تماماً */
+        margin: 0 auto !important; /* توسط الرابط داخل العنصر */
+    }
+    .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+        background-color: rgba(2, 28, 123, 0.05);
+    }
+    
+    /* إخفاء الأزرار العائمة في الهاتف */
+    .dark-mode-toggle,
+    .support-float-btn {
+        display: none !important;
+    }
+
+    /* إخفاء أي زر رجوع في الهاتف */
+    .back-btn, 
+    .guide-back-btn, 
+    .back-btn-custom,
+    a[href*="history.back"],
+    a:has(img[src*="arrow-back.svg"]) {
+        display: none !important;
+    }
+}

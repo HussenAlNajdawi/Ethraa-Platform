@@ -1,0 +1,333 @@
+/* تنسيقات خاصة بصفحة الطلبات */
+.nav-pills .nav-link {
+    color: #104496 !important;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 10px 30px;
+    margin: 0 5px;
+    transition: all 0.3s;
+    background-color: #fff;
+    border: 1px solid #eee;
+}
+.nav-pills .nav-link.active {
+    background-color: #104496 !important;
+    color: white !important;
+    border-color: #104496;
+    box-shadow: 0 4px 10px rgba(16, 68, 150, 0.3);
+}
+.nav-pills .nav-link:hover:not(.active) {
+    background-color: #104496 !important;
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.request-card {
+    background: white;
+    border-radius: 20px;
+    padding: 15px 20px; /* تقليل الحشوة لتصبح البطاقة أرفع */
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    border-right: 5px solid transparent; /* الشريط الملون الجانبي (رفيع ومائل مع الزاوية) */
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.request-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+/* تأثير الهوفر على الأيقونة داخل الكرت */
+.request-card:hover .request-icon-box {
+    background-color: #104496;
+    color: white;
+    box-shadow: 0 5px 15px rgba(16, 68, 150, 0.2);
+}
+
+/* ألوان الحالات (تلوين الحد الجانبي) */
+.status-pending { border-right-color: #ffc107; }
+.status-accepted { border-right-color: #198754; }
+.status-rejected { border-right-color: #dc3545; }
+.status-completed { border-right-color: #0d6efd; }
+
+.status-badge {
+    padding: 4px 12px; /* تصغير حجم الشارة */
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+}
+.badge-pending { background-color: #fff8e1; color: #b78900; }
+.badge-accepted { background-color: #e8f5e9; color: #2e7d32; }
+.badge-rejected { background-color: #ffebee; color: #c62828; }
+.badge-completed { background-color: #e3f2fd; color: #1565c0; }
+
+.request-icon-box {
+    width: 42px; /* تصغير الأيقونة */
+    height: 42px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #104496;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-left: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+.icon-box-outgoing {
+    background-color: #e3f2fd; color: #104496;
+}
+
+/* أزرار الإجراءات الجديدة */
+.btn-action-sm {
+    padding: 5px 15px; /* أزرار أنحف */
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+}
+.btn-report {
+    background-color: #fff0f1;
+    color: #dc3545;
+}
+.btn-report:hover {
+    background-color: #ffe6e8;
+    transform: translateY(-2px);
+}
+.btn-finish {
+    background-color: #e8f5e9;
+    color: #198754;
+}
+.btn-finish:hover {
+    background-color: #d1e7dd;
+    transform: translateY(-2px);
+}
+.btn-waiting {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: default;
+}
+
+.btn-accept {
+    background-color: #e8f5e9;
+    color: #198754;
+}
+.btn-accept:hover {
+    background-color: #d1e7dd;
+    transform: translateY(-2px);
+}
+.btn-reject {
+    background-color: #fff0f1;
+    color: #dc3545;
+}
+.btn-reject:hover {
+    background-color: #ffe6e8;
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background-color: #fff8e1; /* Light yellow */
+    color: #b78900; /* Dark yellow/brown */
+}
+.btn-cancel:hover {
+    background-color: #ffecb3;
+    transform: translateY(-2px);
+}
+
+.btn-rate {
+    background-color: #fff3cd;
+    color: #ffc107;
+}
+.btn-rate:hover {
+    background-color: #ffecb3;
+    transform: translateY(-2px);
+}
+.btn-rated {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: default;
+}
+
+.btn-chat {
+    background-color: #f3e8ff;
+    color: #8b5cf6;
+    text-decoration: none;
+}
+.btn-chat:hover {
+    background-color: #e9d5ff;
+    color: #7e22ce;
+    transform: translateY(-2px);
+}
+
+.btn-whatsapp {
+    background-color: #e8f5e9;
+    color: #25D366;
+    text-decoration: none;
+}
+.btn-whatsapp:hover {
+    background-color: #d1e7dd;
+    color: #128C7E;
+    transform: translateY(-2px);
+}
+
+.btn-call {
+    background-color: #e3f2fd;
+    color: #104496;
+    text-decoration: none;
+}
+.btn-call:hover {
+    background-color: #cce5ff;
+    color: #0b2e6f;
+    transform: translateY(-2px);
+}
+
+/* تحسينات تخطيط الكرت */
+.request-details-box {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    color: #555;
+    border: 1px solid #eee;
+    position: relative;
+    transition: max-height 0.3s ease;
+}
+
+.request-details-box.collapsed {
+    max-height: 50px; /* ارتفاع يكفي لسطرين تقريباً */
+    overflow: hidden;
+    mask-image: linear-gradient(180deg, #000 60%, transparent);
+    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
+}
+
+.request-details-box.expanded {
+    max-height: none;
+    mask-image: none;
+    -webkit-mask-image: none;
+}
+
+.btn-read-more {
+    background: none;
+    border: none;
+    color: #104496;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0;
+    margin-top: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+.btn-read-more:hover {
+    text-decoration: underline;
+}
+.request-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px; /* تقريب الأزرار من المحتوى */
+    flex-wrap: wrap; /* السماح بالالتفاف للأزرار الكثيرة */
+    justify-content: center; /* توسيط الأزرار */
+    width: 100%;
+}
+.request-actions form, .request-actions > .btn-action-sm, .request-actions > span {
+    flex: 1; /* جعل جميع العناصر تأخذ مساحة متساوية (50% لكل زر في حال وجود زرين) */
+    min-width: 0; /* السماح للعناصر بالتقلص لتناسب العرض */
+    width: 100%;
+}
+
+.request-actions .btn-action-sm {
+    width: 100%;
+    justify-content: center;
+}
+
+/* --- تنسيق نجوم التقييم داخل المودال --- */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 5px;
+}
+/* تعديل لإخفاء الـ input مع الحفاظ على قابليته للتحقق (Required) */
+.star-rating input { 
+    opacity: 0; 
+    position: absolute; 
+    pointer-events: none; 
+}
+.star-rating label { font-size: 30px; color: #ccc; cursor: pointer; transition: color 0.2s; }
+.star-rating label:before { content: '\f005'; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+.star-rating input:checked ~ label { color: #ffc107; }
+.star-rating label:hover,
+.star-rating label:hover ~ label { color: #ffc107; }
+
+/* ============================================================== */
+/* --- استجابة الشاشات المختلفة (Responsive Design) لصفحة الطلبات --- */
+/* ============================================================== */
+
+/* الايباد والتابلت */
+@media (max-width: 991.98px) {
+    .request-card {
+        padding: 15px;
+    }
+    .request-icon-box {
+        width: 35px;
+        height: 35px;
+    }
+    .nav-pills .nav-link {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* الشاشات الصغيرة (الموبايل) */
+@media (max-width: 768px) {
+    .nav-pills {
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        gap: 5px;
+        flex-wrap: nowrap;
+    }
+    .nav-pills .nav-item {
+        width: auto;
+    }
+    .nav-pills .nav-link {
+        width: auto;
+        margin: 0;
+        text-align: center;
+        padding: 8px 15px; /* حشوة مناسبة تحافظ على شكل الزر وتمنع تمدده المفرط */
+        white-space: nowrap; /* منع نزول النص لسطر جديد */
+    }
+    .request-card {
+        padding: 15px;
+    }
+    .request-icon-box {
+        display: none; /* إخفاء الأيقونة لتوفير مساحة للنصوص في الشاشات الصغيرة */
+    }
+    .request-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .request-actions form, .request-actions > .btn-action-sm, .request-actions > span {
+        width: 100%;
+        flex: none;
+    }
+}
+
+@media (max-width: 400px) {
+    .btn-action-sm {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+    .status-badge {
+        font-size: 0.7rem;
+    }
+}
