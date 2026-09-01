@@ -372,19 +372,25 @@ Comprehensive automated dynamic tests were executed on a live local environment 
 
 ## 📸 Screenshots
 
-> Screenshots can be placed in `docs/screenshots/` to visually showcase the application interfaces.
-
-| Landing Page & Discovery | Dark Mode Experience |
+### 🖥️ User Interface & Experience
+| Landing Page & Service Discovery | Dark Mode Experience |
 | :---: | :---: |
-| *(Capture: `docs/screenshots/home.png`)* | *(Capture: `docs/screenshots/dark-mode.png`)* |
+| ![Home](docs/screenshots/home.png) | ![Dark Mode](docs/screenshots/dark-mode.png) |
 
-| Service Booking & Requests | Private Chat & Moderation |
+### 🤝 Service Booking & Communication
+| Service Discovery & Booking | Private Chat & Moderation |
 | :---: | :---: |
-| *(Capture: `docs/screenshots/booking.png`)* | *(Capture: `docs/screenshots/chat.png`)* |
+| ![Booking](docs/screenshots/booking.png) | ![Chat](docs/screenshots/chat.png) |
 
-| Points Wallet Ledger | Admin Control Dashboard |
+### 💼 Wallet & Administration
+| Points Ledger & Transactions | Admin Control Dashboard |
 | :---: | :---: |
-| *(Capture: `docs/screenshots/wallet.png`)* | *(Capture: `docs/screenshots/admin-dashboard.png`)* |
+| ![Wallet](docs/screenshots/wallet.png) | ![Admin Dashboard](docs/screenshots/admin-dashboard.png) |
+
+### 📱 Responsive & Management
+| Admin Users Management | Mobile Responsive Layout |
+| :---: | :---: |
+| ![Admin Management](docs/screenshots/admin-management.png) | <img src="docs/screenshots/mobile.png" width="260" alt="Mobile"> |
 
 ---
 

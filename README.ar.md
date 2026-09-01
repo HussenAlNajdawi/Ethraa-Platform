@@ -384,19 +384,25 @@ Referrer-Policy: strict-origin-when-cross-origin
 
 ## 📸 لقطات الشاشة وواجهات المنصة (Screenshots)
 
-> يمكن حفظ لقطات الشاشة في المجلد `docs/screenshots/` لعرض واجهات النظام بشكل تفاعلي.
-
-| واجهة المنصة واستكشاف الخدمات | تجربة الوضع الليلي (Dark Mode) |
+### 🖥️ واجهات المستخدم وتجربة الاستخدام
+| الصفحة الرئيسية واستكشاف الخدمات | تجربة الوضع الليلي (Dark Mode) |
 | :---: | :---: |
-| *(التقاط: `docs/screenshots/home.png`)* | *(التقاط: `docs/screenshots/dark-mode.png`)* |
+| ![Home](docs/screenshots/home.png) | ![Dark Mode](docs/screenshots/dark-mode.png) |
 
-| حجز الخدمات وإدارة الطلبات | المحادثة الخاصة والإشراف الآلي |
+### 🤝 حجز الخدمات والمحادثة المباشرة
+| دليل الخدمات ومحرك الحجز | المحادثة الخاصة والإشراف الآلي |
 | :---: | :---: |
-| *(التقاط: `docs/screenshots/booking.png`)* | *(التقاط: `docs/screenshots/chat.png`)* |
+| ![Booking](docs/screenshots/booking.png) | ![Chat](docs/screenshots/chat.png) |
 
+### 💼 المحفظة ولوحة الإدارة المركزية
 | سجل المحفظة والمعاملات | لوحة تحكم وإحصائيات الإدارة |
 | :---: | :---: |
-| *(التقاط: `docs/screenshots/wallet.png`)* | *(التقاط: `docs/screenshots/admin-dashboard.png`)* |
+| ![Wallet](docs/screenshots/wallet.png) | ![Admin Dashboard](docs/screenshots/admin-dashboard.png) |
+
+### 📱 الإدارة والتصميم المتجاوب للهواتف
+| إدارة المستخدمين والرقابة | العرض المتجاوب على شاشات الهواتف |
+| :---: | :---: |
+| ![Admin Management](docs/screenshots/admin-management.png) | <img src="docs/screenshots/mobile.png" width="260" alt="Mobile"> |
 
 ---
 
