@@ -9,7 +9,6 @@
 [![Database](https://img.shields.io/badge/MySQL-8.0%2B-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Frontend](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=flat&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![Security Hardened](https://img.shields.io/badge/Security-Hardened%20(OWASP)-success?style=flat&logo=securityscorecard&logoColor=white)](#-security-architecture--hardening)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
 
@@ -61,7 +60,7 @@ Ethraa bridges this gap by awarding every newly verified user welcome points to 
 - **Authentication & Protection:** Secure password hashing with Bcrypt, automated 5-attempt / 15-minute brute-force lockout, session fixation defense (`session_regenerate_id`), and secure "Remember Me" token rotation.
 - **Service Directory & Discovery:** Dynamic categorization (Main Categories and Sub-services), real-time client-side search, provider availability filtering, and live rating previews.
 - **Service Booking & Request Lifecycle:** Interactive booking engine with provider schedule inspection, atomic conditional points deduction, daily booking quota limits, and concurrent active request limits.
-- **Real-Time Private Messaging:** Direct chat between requester and provider with AJAX polling, typing indicator broadcasts, secure image sharing (with image re-rendering via GD), and single-click message reporting.
+- **Private Messaging (AJAX Polling):** Direct chat between requester and provider with AJAX polling, typing indicator broadcasts, secure image sharing (with image re-rendering via GD), and single-click message reporting.
 - **Automated Content Moderation:** Rule-based regex detection for prohibited terms, off-platform contact sharing, and phone number leakage with automatic penalty escalation (warnings, strikes, and automated temporary bans).
 - **Points & Transaction Ledger:** Visual wallet tracking available balance, incoming/outgoing points, detailed transaction log, and referral reward tracking.
 - **Reviews & Rating Engine:** 5-star rating system with qualitative feedback, restricted strictly to completed requests with database-enforced single-review constraints.
@@ -115,11 +114,11 @@ Ethraa bridges this gap by awarding every newly verified user welcome points to 
 ### User Journey
 1. **Onboarding:** Registration $\rightarrow$ Account Verification via Email Link $\rightarrow$ Initial Login.
 2. **Explore & Request:** Browse Service Catalog $\rightarrow$ Select Available Provider $\rightarrow$ Submit Booking Form.
-3. **Collaboration:** Provider accepts $\rightarrow$ Direct Private Chat opens $\rightarrow$ Real-time messaging & image exchange.
+3. **Collaboration:** Provider accepts $\rightarrow$ Direct Private Chat opens $\rightarrow$ AJAX-polled messaging & image exchange.
 4. **Completion & Review:** Both parties confirm service delivery $\rightarrow$ Points credited to Provider $\rightarrow$ Requester submits rating & review.
 
 ### Administrator Journey
-1. **Authentication:** Secure Admin Login $\rightarrow$ 2FA/Credential Verification $\rightarrow$ Session Permission Loading.
+1. **Authentication:** Secure Admin Login $\rightarrow$ Credential & CSRF Verification $\rightarrow$ Session Permission Loading.
 2. **Oversight:** Inspect Dashboard Metrics $\rightarrow$ Monitor Service Requests and User Growth.
 3. **Moderation:** Review User Reports & Appeals $\rightarrow$ Apply disciplinary actions $\rightarrow$ Update Platform Settings.
 4. **Auditability:** Every administrative modification is committed to `admin_logs` with actor IP address.
