@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 # 🌟 Ethraa Platform (منصة إثراء)
 ### A Collaborative Peer-to-Peer Skills & Service Exchange Web Application
@@ -325,7 +325,7 @@ Ethraa has been thoroughly hardened in accordance with **OWASP Top 10** security
 - **Session Idle Timeout:** Enforces 60-minute user and 30-minute admin inactivity timeouts.
 
 ### 2. Injection & Cross-Site Defenses
-- **SQL Injection Prevention:** **100% Prepared Statements** across all database interactions using MySQLi parameterized binding (`$stmt->bind_param()`).
+- **SQL Injection Mitigation:** Prepared statements using `$stmt->bind_param()` across database interactions to mitigate SQL injection risks.
 - **CSRF Defense:** Mandatory cryptographic `csrf_token` generation and verification via timing-safe `hash_equals()` on all POST and AJAX mutations.
 - **XSS Mitigation:** Comprehensive output encoding via `htmlspecialchars($str, ENT_QUOTES, 'UTF-8')` across all presentation views and DOM text rendering via `textContent` in JavaScript.
 - **IDOR Protection:** Server-side ownership verification ensuring users cannot view, modify, cancel, or review requests or messages belonging to other users.

@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to the **Ethraa Platform** project will be documented in this file.
 
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Administrative Portal (RBAC):** Centralized analytics dashboard, user moderation, service/domain manager, appeals adjudication, audit logging, and maintenance mode toggle.
 
 ### Security
-- **100% Prepared Statements:** All database queries utilize MySQLi parameterized bindings (`$stmt->bind_param()`), mitigating SQL Injection.
+- **Prepared Statements:** Database queries utilize MySQLi parameterized bindings (`$stmt->bind_param()`) to mitigate SQL Injection risks.
 - **Comprehensive CSRF Defense:** Cryptographic token verification via `hash_equals()` across all POST and AJAX mutation endpoints.
 - **Session Hardening:** `HttpOnly`, `SameSite=Lax`, conditional `Secure` cookie parameters, `session_regenerate_id(true)` upon authentication, and `session_version` forced invalidation.
 - **Brute-Force Lockout:** Automated 15-minute account lock after 5 consecutive failed login attempts.
